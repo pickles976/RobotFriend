@@ -2,6 +2,12 @@
 import rospy
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist
+import os
+
+
+current_os = os.uname()
+print(current_os.sysname)
+
 
 def callback(data):
     # rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.data)
