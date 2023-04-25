@@ -1,5 +1,6 @@
+#!/usr/bin/env python
 import RPi.GPIO as GPIO
-from time import sleep
+# from time import sleep
 
 pwmpin = 12				# PWM pin connected to LED
 GPIO.setwarnings(False)			#disable warnings
