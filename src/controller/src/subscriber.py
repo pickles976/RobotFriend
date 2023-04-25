@@ -6,7 +6,7 @@ import os
 
 
 current_os = os.uname()
-print(current_os.sysname)
+print(current_os)
 
 
 def callback(data):
