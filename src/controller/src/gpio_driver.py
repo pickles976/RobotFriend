@@ -14,7 +14,7 @@ pi_pwm.start(5)				#start PWM of required Duty Cycle
 # 5 is reverse, 7.5 is stopped, 10 is forward
 
 while True:
-    for duty in range(0,3,1):
-        d = 5 + (duty * 2.5)
+    for duty in range(0,10,1):
+        d = 5 + (duty * 0.5)
         pi_pwm.ChangeDutyCycle(d) #provide duty cycle in the range 0-100
         sleep(5)

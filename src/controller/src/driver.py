@@ -12,8 +12,8 @@ servo.set_servo(32, 2000)
 servo.set_servo(17, 2000)
 
 while True:
-    for i in range(0,3):
-        servo.set_servo(32, 1000 + (i * 500))
+    for i in range(0,10):
+        servo.set_servo(32, 1000 + (i * 100))
         sleep(5)
 
 # Clear servo on GPIO17
