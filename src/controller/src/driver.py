@@ -4,6 +4,7 @@ from std_msgs.msg import String
 from geometry_msgs.msg import Twist
 import os
 import pigpio
+from time import sleep
 
 RIGHT_SERVO=12 # pin 32
 LEFT_SERVO=13 # pin 33
@@ -76,7 +77,12 @@ if __name__ == '__main__':
     print(current_os)
 
     pi = pigpio.pi()
+
     if not pi.connected:
         exit()
+
+    print("Pigpio connected")
+    print(pi)
+    sleep(2)
 
     listener()
