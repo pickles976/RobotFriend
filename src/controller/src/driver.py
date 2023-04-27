@@ -12,18 +12,12 @@ MAX_WIDTH=2000
 STOP_WIDTH = 1500
 RANGE_WIDTH = 500
 
-IS_PI = False
-
 current_os = os.uname()
 print(current_os)
 
-if "raspberrypi" in current_os:
-    IS_PI = True
-
-    pi = pigpio.pi()
-
-    if not pi.connected:
-        exit()
+pi = pigpio.pi()
+if not pi.connected:
+    exit()
 
 def right_servo(speed):
 
@@ -46,9 +40,6 @@ def left_servo(speed):
 def callback(data):
 
     print(data)
-
-    if not IS_PI:
-        return
 
     x = data.linear.x / 6
     z = data.angular.z
