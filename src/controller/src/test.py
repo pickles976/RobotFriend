@@ -16,8 +16,8 @@ if not pi.connected:
    exit()
 
 while True:
-    for i in range(0, 10, 1):
-        pulse = MIN_WIDTH + (100 * i)
+    for i in range(0, 20, 1):
+        pulse = MIN_WIDTH + (50 * i)
         pi.set_servo_pulsewidth(RIGHT_SERVO, pulse)
         print(pulse)
-        sleep(2.5)
+        sleep(1.0)

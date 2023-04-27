@@ -6,6 +6,11 @@ import os
 import pigpio
 from time import sleep
 
+# right center = 1540
+# left center = 1530
+RIGHT_TRIM = 40
+LEFT_TRIM = 30
+
 RIGHT_SERVO=12 # pin 32
 LEFT_SERVO=13 # pin 33
 MIN_WIDTH=1000
@@ -15,12 +20,12 @@ RANGE_WIDTH = 500
 
 def right_servo(speed):
 
-    pulse = STOP_WIDTH - (RANGE_WIDTH * speed)
+    pulse = STOP_WIDTH + RIGHT_TRIM - (RANGE_WIDTH * speed)
     pi.set_servo_pulsewidth(RIGHT_SERVO, pulse)
 
 def left_servo(speed):
 
-    pulse = STOP_WIDTH + (RANGE_WIDTH * speed)
+    pulse = STOP_WIDTH + LEFT_TRIM + (RANGE_WIDTH * speed)
     pi.set_servo_pulsewidth(LEFT_SERVO, pulse)
 
 def callback(data):
