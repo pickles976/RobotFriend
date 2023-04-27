@@ -12,13 +12,6 @@ MAX_WIDTH=2000
 STOP_WIDTH = 1500
 RANGE_WIDTH = 500
 
-current_os = os.uname()
-print(current_os)
-
-pi = pigpio.pi()
-if not pi.connected:
-    exit()
-
 def right_servo(speed):
 
     if (abs(speed) < 0.01):
@@ -78,4 +71,12 @@ def listener():
     rospy.spin()
 
 if __name__ == '__main__':
+
+    current_os = os.uname()
+    print(current_os)
+
+    pi = pigpio.pi()
+    if not pi.connected:
+        exit()
+
     listener()

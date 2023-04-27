@@ -3,7 +3,7 @@ import sys
 from time import sleep
 import pigpio
 
-RIGHT_SERVO=32
+RIGHT_SERVO=12
 MIN_WIDTH=1000
 MAX_WIDTH=2000
 
