@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from RPIO import PWM
 from time import sleep
 
@@ -13,7 +14,9 @@ servo.set_servo(17, 2000)
 
 while True:
     for i in range(0,10):
-        servo.set_servo(32, 1000 + (i * 100))
+        duty = 1000 + (i * 100)
+        servo.set_servo(32, duty)
+        print(duty)
         sleep(5)
 
 # Clear servo on GPIO17
