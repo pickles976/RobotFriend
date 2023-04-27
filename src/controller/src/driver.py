@@ -1,23 +1,20 @@
 #!/usr/bin/env python
-from RPIO import PWM
+import sys
 from time import sleep
+import pigpio
 
-servo = PWM.Servo()
+RIGHT_SERVO=32
+MIN_WIDTH=1000
+MAX_WIDTH=2000
 
-# 1000 -> 1500 -> 2000
+pi = pigpio.pi()
 
-# Set servo on GPIO32 to 2000µs (2ms)
-servo.set_servo(32, 2000)
-
-# Set servo on GPIO17 to 2000µs (2.0ms)
-servo.set_servo(17, 2000)
+if not pi.connected:
+   exit()
 
 while True:
-    for i in range(0,10):
-        duty = 1000 + (i * 100)
-        servo.set_servo(32, duty)
-        print(duty)
-        sleep(5)
-
-# Clear servo on GPIO17
-servo.stop_servo(17)
+    for i in range(0, 10, 1):
+        pulse = MIN_WIDTH + (100 * i)
+        pi.set_servo_pulsewidth(RIGHT_SERVO, pulse)
+        print(pulse)
+        sleep(2.5)
