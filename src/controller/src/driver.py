@@ -15,18 +15,10 @@ RANGE_WIDTH = 500
 
 def right_servo(speed):
 
-    if (abs(speed) < 0.01):
-        pi.stop()
-        return
-
     pulse = STOP_WIDTH + (RANGE_WIDTH * speed)
     pi.set_servo_pulsewidth(RIGHT_SERVO, pulse)
 
 def left_servo(speed):
-
-    if (abs(speed) < 0.01):
-        pi.stop()
-        return
 
     pulse = STOP_WIDTH + (RANGE_WIDTH * speed)
     pi.set_servo_pulsewidth(LEFT_SERVO, pulse)
