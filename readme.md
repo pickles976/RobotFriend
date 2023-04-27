@@ -15,3 +15,26 @@ Servos need to be grounded to the RaspberryPi
 
 Servos need 50hz w/ duty cycle of 5% to 10%
 Duty cycle of 7.5% is stopped.
+
+# Chassis
+Length = ???
+Width = 7.931
+
+Battery dims
+L = 13.97cm
+W = 6.731cm
+H = 1.6256cm
+
+Pi hole dims
+4.9cm
+5.8cm
+
+cam hole dims
+1.34cm
+2.0828cm
+
+robot hole dims
+6.985cm x 6.985cm
+
+wall thickness
+4mm
