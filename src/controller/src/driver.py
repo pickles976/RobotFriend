@@ -36,14 +36,15 @@ def callback(data):
     right += x
     left += x
 
-    if (x > 0.01):
-        if (z < 0):
-            right *= (1-z)
-        elif (z > 0):
-            left *= (1-z)
-    else:
-        right = z
-        left = -z
+    if (abs(z) > 0.1):
+        if (x > 0.01):
+            if (z < 0):
+                right *= (1-z)
+            elif (z > 0):
+                left *= (1-z)
+        else:
+            right = z
+            left = -z
 
     right_servo(right)
     left_servo(left)
