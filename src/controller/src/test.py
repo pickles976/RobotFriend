@@ -9,8 +9,6 @@ MAX_WIDTH=2000
 
 pi = pigpio.pi()
 
-pi.stop()
-
 print("sleeping for 5s")
 sleep(5)
 
