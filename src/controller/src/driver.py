@@ -1,25 +1,90 @@
 #!/usr/bin/env python
-import sys
-from time import sleep
+import rospy
+from std_msgs.msg import String
+from geometry_msgs.msg import Twist
+import os
 import pigpio
 
-RIGHT_SERVO=32
+RIGHT_SERVO=12 # pin 32
+LEFT_SERVO=13 # pin 33
 MIN_WIDTH=1000
 MAX_WIDTH=2000
+STOP_WIDTH = 1500
+RANGE_WIDTH = 500
 
-pi = pigpio.pi()
+IS_PI = False
 
-pi.stop()
+current_os = os.uname()
+print(current_os)
 
-print("sleeping for 5s")
-sleep(5)
+if "raspberrypi" in current_os:
+    IS_PI = True
 
-if not pi.connected:
-   exit()
+    pi = pigpio.pi()
 
-while True:
-    for i in range(0, 10, 1):
-        pulse = MIN_WIDTH + (100 * i)
-        pi.set_servo_pulsewidth(RIGHT_SERVO, pulse)
-        print(pulse)
-        sleep(2.5)
+    if not pi.connected:
+        exit()
+
+def right_servo(speed):
+
+    if (abs(speed) < 0.01):
+        pi.stop()
+        return
+
+    pulse = STOP_WIDTH + (RANGE_WIDTH * speed)
+    pi.set_servo_pulsewidth(RIGHT_SERVO, pulse)
+
+def left_servo(speed):
+
+    if (abs(speed) < 0.01):
+        pi.stop()
+        return
+
+    pulse = STOP_WIDTH + (RANGE_WIDTH * speed)
+    pi.set_servo_pulsewidth(LEFT_SERVO, pulse)
+
+def callback(data):
+
+    print(data)
+
+    if not IS_PI:
+        return
+
+    x = data.linear.x / 6
+    z = data.angular.z
+
+    right = 0
+    left = 0
+
+    right += x
+    left += x
+
+    if (x > 0.01):
+        if (z < 0):
+            right *= (1-z)
+        elif (z > 0):
+            left *= (1-z)
+    else:
+        right = z
+        left = -z
+
+    right_servo(right)
+    left_servo(left)
+    
+def listener():
+
+    print("Starting node...")
+
+    # In ROS, nodes are uniquely named. If two nodes with the same
+    # name are launched, the previous one is kicked off. The
+    # anonymous=True flag means that rospy will choose a unique
+    # name for our 'listener' node so that multiple listeners can
+    # run simultaneously.
+    rospy.Subscriber("velocity_controller/cmd_vel", Twist, callback)
+    rospy.init_node('listener', anonymous=True)
+
+    # spin() simply keeps python from exiting until this node is stopped
+    rospy.spin()
+
+if __name__ == '__main__':
+    listener()
