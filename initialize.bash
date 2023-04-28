@@ -2,4 +2,6 @@
 
 rm -rf build
 catkin_make
-source devel/setup.bash
+pigpiod
+
+source ./devel/setup.bash
