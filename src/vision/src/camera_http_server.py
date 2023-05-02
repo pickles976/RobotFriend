@@ -43,8 +43,8 @@ class CamHandler(BaseHTTPRequestHandler):
 def main():
   global camera
   camera = picamera.PiCamera()
-  #camera.resolution = (1280, 960)
-  camera.resolution = (640, 480)
+  camera.resolution = (1280, 960)
+  # camera.resolution = (640, 480)
   camera.rotation = 180
   global img
   try:
