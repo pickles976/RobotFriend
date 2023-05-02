@@ -25,7 +25,8 @@ img = np.zeros((1,1), np.uint8)
 gray = img
  
 # Extracting path of individual image stored in a given directory
-images = glob.glob('/home/sebastian/catkin_ws/src/vision/src/laptop_img/*.jpg')
+# images = glob.glob('/home/sebastian/catkin_ws/src/vision/src/laptop_img/*.jpg')
+images = glob.glob('/home/sebastian/catkin_ws/src/vision/src/robot_img/*.jpg')
 print(images)
 
 for fname in images:
@@ -50,8 +51,9 @@ for fname in images:
         # Draw and display the corners
         img = cv2.drawChessboardCorners(img, CHECKERBOARD, corners2, ret)
      
-    cv2.imshow('img',img)
-    cv2.waitKey(0)
+    # Uncomment to show the images
+    # cv2.imshow('img',img)
+    # cv2.waitKey(0)
  
 cv2.destroyAllWindows()
  
