@@ -50,3 +50,5 @@ ID- X,Y,Z
 2 - 0,0,2
 3 - -11ft 9 in, 7ft, 1
 4 - 
+
+rosrun image_view image_view image:=/camera/image
