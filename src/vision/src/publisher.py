@@ -6,7 +6,7 @@
 import io
 import time
 import picamera
-from sensor_msgs import Image
+from sensor_msgs.msg import Image
 import rospy
 import numpy as np
 import ros_numpy
