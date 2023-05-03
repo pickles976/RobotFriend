@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import os
 import glob
+import yaml
 
 SQUARE_WIDTH = 21.59
  
@@ -67,11 +68,18 @@ detected corners (imgpoints)
 """
 ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
  
-print("Camera matrix : \n")
-print(mtx)
-print("dist : \n")
-print(dist)
-print("rvecs : \n")
-print(rvecs)
-print("tvecs : \n")
-print(tvecs)
+# print("Camera matrix : \n")
+# print(mtx)
+# print("dist : \n")
+# print(dist)
+# print("rvecs : \n")
+# print(rvecs)
+# print("tvecs : \n")
+# print(tvecs)
+
+# transform the matrix and distortion coefficients to writable lists
+data = {"camera_matrix": np.asarray(mtx).tolist(), "dist_coeff": np.asarray(dist).tolist()}
+fname = "camera_matrix.json"
+import json
+with open(fname, "w") as f:
+    json.dump(data, f)
