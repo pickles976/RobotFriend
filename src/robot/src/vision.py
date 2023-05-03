@@ -12,13 +12,17 @@ import numpy as np
 import ros_numpy
 
 camera=None
+topic = 'picamera/image'
+node_name = 'camera'
 
 def talker():
 
-    pub = rospy.Publisher('picamera/image', Image, queue_size=10)
-    rospy.init_node('camera', anonymous=True)
+    print('Initializing node: {} with topic "{}"'.format(node_name, topic))
+    pub = rospy.Publisher(topic, Image, queue_size=10)
+    rospy.init_node(node_name, anonymous=True)
     rate = rospy.Rate(10) # 10hz
 
+    print("Starting camera...")
     camera = picamera.PiCamera()
     camera.resolution = (1280, 960)
     camera.framerate = 10
@@ -28,7 +32,7 @@ def talker():
 
         message = Image()
 
-        output = np.numpy((960*1280*3,),dtype=np.uint8)
+        output = np.empty((960*1280*3,),dtype=np.uint8)
         # output = np.empty((960, 1280, 3), dtype=np.uint8)
         camera.capture(output, 'rgb')
         output = output.reshape((960,1280,3))
