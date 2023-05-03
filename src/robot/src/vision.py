@@ -28,6 +28,7 @@ def talker():
     camera.framerate = 10
     camera.rotation = 180
 
+    print("Starting capture...")
     while not rospy.is_shutdown():
 
         message = Image()
@@ -40,6 +41,7 @@ def talker():
         message = ros_numpy.msgify(Image, output, encoding='rgb8')
 
         # rospy.loginfo(message)
+        print("Sending image...")
         pub.publish(message)
         rate.sleep()
 
