@@ -12,6 +12,8 @@ path = "./src/vision/src/"
 camera_matrix = None
 dist_coeffs = None
 
+marker_dict = None
+
 def loadCameraMatrix():
     with open(os.path.join(path, "camera_matrix.json"), 'r') as f:
         data = json.load(f)
@@ -20,6 +22,26 @@ def loadCameraMatrix():
         print("Camera Matrix: %s"%camera_matrix)
         print("Distortion Coefficients: %s"%dist_coeffs)
 
+def loadArucoCoordinates():
+    with open(os.path.join(path, "aruco_markers.json"), 'r') as f:
+        dict = json.load(f)
+
+        # convert keys to numbers
+        dict = {int(k):[int(i) for i in v] for k,v in dict.items()}
+
+        # convert to mm
+        for key in dict:
+            dict[key] = list(map(lambda x: x * 304.80,dict[key]))
+
+        # convert to np array
+        for key in dict:
+            dict[key] = np.array(dict[key], dtype=np.float32)
+
+        print("Loaded markers")
+        print(dict)
+
+        return dict
+
 def findArucoMarkers(img, markerSize = 5, totalMarkers=250, draw=True):    
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # key = getattr(aruco, f'DICT_{markerSize}X{markerSize}_{totalMarkers}')
@@ -27,12 +49,12 @@ def findArucoMarkers(img, markerSize = 5, totalMarkers=250, draw=True):
     arucoDict = aruco.Dictionary_get(key)
     arucoParam = aruco.DetectorParameters_create()
     bboxs, ids, rejected = aruco.detectMarkers(gray, arucoDict, parameters = arucoParam)
-    print(ids)
     if draw:
         aruco.drawDetectedMarkers(img, bboxs)
     return [bboxs, ids]
 
 loadCameraMatrix()
+marker_dict = loadArucoCoordinates()
 
 path = os.path.join(path, "localization_images/")
 imName= "2_4_0.jpg"
@@ -41,5 +63,16 @@ img = cv2.imread(path+imName)
 
 arucofound = findArucoMarkers(img, markerSize = 5)
 
-cv2.imshow('img',img)
-cv2.waitKey(0)
+points = arucofound[0]
+ids = arucofound[1]
+
+for i in range(0, len(points)):
+    points_3D = marker_dict[ids[i][0]]
+    points_2D = points[i]
+    print(points_3D)
+    success, rotation_vector, translation_vector = cv2.solvePnP(points_3D, points_2D, camera_matrix, dist_coeffs, flags=0)
+    print("Rotation Vector: %s"%rotation_vector)
+    print("Translation Vector: %s"%translation_vector)
+
+# cv2.imshow('img',img)
+# cv2.waitKey(0)
