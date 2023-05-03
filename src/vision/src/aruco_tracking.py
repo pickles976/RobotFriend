@@ -27,11 +27,7 @@ def loadArucoCoordinates():
         dict = json.load(f)
 
         # convert keys to numbers
-        dict = {int(k):[int(i) for i in v] for k,v in dict.items()}
-
-        # convert to mm
-        for key in dict:
-            dict[key] = list(map(lambda x: x * 304.80,dict[key]))
+        dict = {int(k):int(v) for k,v in dict.items()}
 
         # convert to np array
         for key in dict:

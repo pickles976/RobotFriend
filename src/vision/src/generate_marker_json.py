@@ -5,37 +5,32 @@ from turtle import dot
 import numpy as np
 from math import sin, cos
 from scipy.spatial.transform import Rotation   
+import copy
+
+WIDTH_MM = 80
 
 path = "./src/vision/src/"
 marker_file = "aruco_marker_layout.json"
 
 aruco_markers = None
 
+corners = [
+    [0, 0, 0],
+    [WIDTH_MM, 0, 0],
+    [WIDTH_MM, 0, -WIDTH_MM],
+    [0, 0, -WIDTH_MM],
+]
+
 with open(os.path.join(path, marker_file), 'r') as f:
 
     dict = json.load(f)
 
-    # get translations from dict
-    trans = {}
+    corner_dict = {}
+
+    # Initialize corner dict with default corners
     for key in dict:
-        trans[key] = dict[key]["translation"]
+        corner_dict[key] = copy.deepcopy(corners)
 
-    # convert to mm
-    for key in trans:
-        trans[key] = list(map(lambda x: x * 304.80,trans[key]))
-
-    # convert to np ndarray
-    for key in trans:
-        trans[key] = np.array(trans[key], dtype=np.float32)
-
-    # calculate four corners from 80cm width
-    for key in trans:
-        corners = [trans[key]]
-        corners.append(np.add(trans[key], np.array([80, 0, 0], np.float32)))
-        corners.append(np.add(trans[key], np.array([80, 0, -80], np.float32)))
-        corners.append(np.add(trans[key], np.array([0, 0, -80], np.float32)))
-        trans[key] = corners
-    
     # rotate corners by rotation matrix
     for key in dict:
 
@@ -43,15 +38,34 @@ with open(os.path.join(path, marker_file), 'r') as f:
         r = Rotation.from_euler("xyz",angles,degrees=True)
         new_rotation_matrix = r.as_matrix()
 
-        corners = trans[key]
+        corners = corner_dict[key]
         
         for i in range(0, len(corners)):
-            corners[i] = corners[i].dot(new_rotation_matrix).tolist()
-            
-        trans[key] = corners
+            corner = np.array(corners[i], np.float32)
+            corners[i] = corner.dot(new_rotation_matrix)
+
+        corner_dict[key] = corners
+
+    # add translations to corners
+    for key in dict:
+        trans = dict[key]["translation"]
+
+        # convert to mm
+        trans = list(map(lambda x: x * 304.80,trans))
+
+        # convert to numpy array
+        trans = np.array(trans, dtype=np.float32)
+
+        # add to corners
+        corners = corner_dict[key]
+
+        for i in range(0, len(corners)):
+            corners[i] = np.add(corners[i], trans).tolist()
+
+        corner_dict[key] = corners
 
     # save to new dict
-    aruco_markers = trans
+    aruco_markers = corner_dict
 
 # Save to json
 with open(os.path.join(path, "aruco_markers.json"), "w") as outfile:
