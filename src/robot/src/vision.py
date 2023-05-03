@@ -22,9 +22,9 @@ node_name = 'camera'
 def talker():
 
     print('Initializing node: {} with topic "{}"'.format(node_name, topic))
-    pub = rospy.Publisher(topic, Image, queue_size=2)
+    pub = rospy.Publisher(topic, Image, queue_size=3)
     rospy.init_node(node_name, anonymous=True)
-    rate = rospy.Rate(15) # 15 hz
+    rate = rospy.Rate(10) # 10 hz
 
     print("Starting camera...")
     camera = picamera.PiCamera()
