@@ -10,10 +10,10 @@ from sensor_msgs.msg import Image
 import rospy
 import numpy as np
 import ros_numpy
-import cv2
 
 # (640, 480)
-WIDTH, HEIGHT = 640, 480
+# (1280, 960)
+WIDTH, HEIGHT = 320, 240
 camera=None
 topic = 'picamera/image'
 node_name = 'camera'
@@ -23,37 +23,28 @@ def talker():
     print('Initializing node: {} with topic "{}"'.format(node_name, topic))
     pub = rospy.Publisher(topic, Image, queue_size=10)
     rospy.init_node(node_name, anonymous=True)
-    rate = rospy.Rate(5) # 5hz
+    rate = rospy.Rate(10) # 10 hz
 
-    # print("Starting camera...")
-    # camera = picamera.PiCamera()
-    # camera.resolution = (WIDTH, HEIGHT)
-    # camera.framerate = 5
-    # camera.rotation = 180
-
-    encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 80]
-    SCALE = 0.7
-    FPS = 10.0
+    print("Starting camera...")
+    camera = picamera.PiCamera()
+    camera.resolution = (WIDTH, HEIGHT)
+    camera.framerate = 10
+    camera.rotation = 180
+    camera.awb_mode = 'off'
+    camera.awb_gains = (1.4, 1.5)
+    camera.start_preview()
+    time.sleep(2)
 
     print("Starting capture...")
     while not rospy.is_shutdown():
 
         message = Image()
 
-        # output = np.empty((HEIGHT*WIDTH*3,),dtype=np.uint8)
-        # camera.capture(output, 'rgb')
-        # output = output.reshape((HEIGHT,WIDTH,3))
+        output = np.empty((HEIGHT*WIDTH*3,),dtype=np.uint8)
+        camera.capture(output, 'rgb')
+        output = output.reshape((HEIGHT,WIDTH,3))
 
-        # Capture the video frame
-        ret, frame = imgCap.read()
-
-        # Resize
-        width = int(frame.shape[1] * SCALE)
-        height = int(frame.shape[0] * SCALE)
-        frame = cv2.resize(frame, (width, height))
-        frame = cv2.flip(frame, 0)
-
-        message = ros_numpy.msgify(Image, frame, encoding='rgb8')
+        message = ros_numpy.msgify(Image, output, encoding='rgb8')
 
         # rospy.loginfo(message)
         print("Sending image...")
