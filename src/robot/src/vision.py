@@ -11,6 +11,8 @@ import rospy
 import numpy as np
 import ros_numpy
 
+# (640, 480)
+WIDTH, HEIGHT = 1280, 960
 camera=None
 topic = 'picamera/image'
 node_name = 'camera'
@@ -20,12 +22,12 @@ def talker():
     print('Initializing node: {} with topic "{}"'.format(node_name, topic))
     pub = rospy.Publisher(topic, Image, queue_size=10)
     rospy.init_node(node_name, anonymous=True)
-    rate = rospy.Rate(10) # 10hz
+    rate = rospy.Rate(5) # 5hz
 
     print("Starting camera...")
     camera = picamera.PiCamera()
-    camera.resolution = (1280, 960)
-    camera.framerate = 10
+    camera.resolution = (WIDTH, HEIGHT)
+    camera.framerate = 5
     camera.rotation = 180
 
     print("Starting capture...")
@@ -33,10 +35,9 @@ def talker():
 
         message = Image()
 
-        output = np.empty((960*1280*3,),dtype=np.uint8)
-        # output = np.empty((960, 1280, 3), dtype=np.uint8)
+        output = np.empty((HEIGHT*WIDTH*3,),dtype=np.uint8)
         camera.capture(output, 'rgb')
-        output = output.reshape((960,1280,3))
+        output = output.reshape((HEIGHT,WIDTH,3))
 
         message = ros_numpy.msgify(Image, output, encoding='rgb8')
 
