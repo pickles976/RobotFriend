@@ -6,7 +6,7 @@ import time
 
 encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 80]
 SCALE = 0.7
-FPS = 24.0
+FPS = 10.0
 
 print("Initializing webcam...")
 imgCap = cv2.VideoCapture(0)
@@ -31,6 +31,7 @@ async def handler(websocket, path):
             width = int(frame.shape[1] * SCALE)
             height = int(frame.shape[0] * SCALE)
             frame = cv2.resize(frame, (width, height))
+            frame = cv2.flip(frame, 0)
 
             # To bytes
             frameData = cv2.imencode('.jpg', frame, encode_param)[1].tobytes()
