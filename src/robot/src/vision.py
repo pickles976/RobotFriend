@@ -28,8 +28,10 @@ def talker():
 
         message = Image()
 
-        output = np.empty((960, 1280, 3), dtype=np.uint8)
+        output = np.numpy((960*1280*3,),dtype=np.uint8)
+        # output = np.empty((960, 1280, 3), dtype=np.uint8)
         camera.capture(output, 'rgb')
+        output = output.reshape((960,1280,3))
 
         message = ros_numpy.msgify(Image, output, encoding='rgb8')
 
