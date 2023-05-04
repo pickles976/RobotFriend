@@ -15,7 +15,7 @@ camera=None
 
 def talker():
 
-    pub = rospy.Publisher('picamera/image', Image, queue_size=10)
+    pub = rospy.Publisher('camera/image', Image, queue_size=10)
     rospy.init_node('camera', anonymous=True)
     rate = rospy.Rate(10) # 10hz
 

@@ -11,13 +11,6 @@ import json
 import os
 from numpy.linalg import inv
 
-path = "./src/vision/src/"
-
-camera_matrix = None
-dist_coeffs = None
-
-marker_dict = None
-
 def loadCameraMatrix():
     with open(os.path.join(path, "camera_matrix.json"), 'r') as f:
         data = json.load(f)
@@ -53,13 +46,12 @@ def findArucoMarkers(img, markerSize = 5, totalMarkers=250, draw=True):
         aruco.drawDetectedMarkers(img, bboxs)
     return [bboxs, ids]
 
+path = "./src/vision/src/"
+imName= "-8_6_0.jpg"
+
 camera_matrix, dist_coeffs = loadCameraMatrix()
 marker_dict = loadArucoCoordinates()
-
-path = os.path.join(path, "localization_images/")
-imName= "-9_7_0.jpg"
-
-img = cv2.imread(path+imName)
+img = cv2.imread(os.path.join(path, "localization_images/")+imName)
 
 arucofound = findArucoMarkers(img, markerSize = 5)
 
@@ -73,33 +65,24 @@ for i in range(0, len(points)):
     points_2D = points[i][0]
 
     success, rotation_vector, translation_vector = cv2.solvePnP(points_3D, points_2D, camera_matrix, dist_coeffs, flags=cv2.SOLVEPNP_IPPE)
-    print("Rotation Vector: %s"%rotation_vector)
-    print("Translation Vector: %s"%translation_vector)
 
     # convert to homogeneous transform matrix
-    rmat, _ = cv2.Rodrigues(rotation_vector)
-    print(rmat)
-
+    rmat, _ = cv2.Rodrigues(rotation_vector) # rotation vector to rotation matrix
     transform = np.eye(4, dtype=np.float32)
     transform[:3, :3] = rmat
     transform[:3, 3] = translation_vector.reshape(3)
 
-    print(transform)
-
     # compute the inverse to get absolute world position
     transform = inv(transform)
-    print(transform)
 
     # convert to ft
     translation = transform[:3,3]
     translation = list(map(lambda x: x / 304.80, translation))
     print(translation)
 
-    # translation_vector = translation_vector.reshape(3)
-    # # translation_vector = np.subtract(points_3D[0], translation_vector)
-    # translation_vector = list(map(lambda x: x / 304.80, translation_vector))
-
-    # print("Translation Vector Ft: %s"%translation_vector)
+    # print rotation
+    rotation = transform[:3,:3]
+    print(rotation)
 
 # cv2.imshow('img',img)
-# cv2.waitKey(0)s
+# cv2.waitKey(0)

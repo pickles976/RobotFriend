@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import sys
+### For testing pulse widths on the servos
 from time import sleep
 import pigpio
 
@@ -9,7 +9,7 @@ MAX_WIDTH=2000
 
 pi = pigpio.pi()
 
-print("sleeping for 5s")
+print("sleeping for 1s")
 sleep(5)
 
 if not pi.connected:

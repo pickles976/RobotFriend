@@ -1,15 +1,21 @@
+# Robot Project
+
 # How to use
 
-## First time setup
+## First time setup (laptop and robot)
 1. clone repo
 2. source opt/ros/kinetic/setup.bash
 3. follow instructions for subsequent setup
 
-## Subsequent
-1. bash initialize.bash
-2. source devel/setup.sh
-3. sudo pigpiod
-4. on Raspberry pi run "rosrun controller driver.py"
+## Robot setup
+1. source initialize_pi.bash
+2. sudo pigpiod
+3. on Raspberry pi run "rosrun robot driver.py"
+
+## Laptop setup
+1. source initialize_master.bash
+2. roscore
+3. rosrun controller publisher.py
 
 # Debugging hardware
 
@@ -22,7 +28,9 @@ Servos need 50hz w/ duty cycle of 5% to 10%
 Duty cycle of 7.5% is stopped.
 
 # Chassis Dimensions
-Length = ???
+
+robotv4.blend
+
 Width = 7.931cm
 
 Battery dims
@@ -40,15 +48,41 @@ robot hole dims
 wall thickness
 4mm
 
-# Fiducial Info:
+# Vision
 
-10 Aruco fiducials, 8cm wide
+## Camera and Streaming on the Robot
 
-ID- X,Y,Z
-0 - 0,0,1
-1 - 1,0,1
-2 - 0,0,2
-3 - -11ft 9 in, 7ft, 1
-4 - 
+There is one camera on the raspberry pi.
 
-rosrun image_view image_view image:=/picamera/image
+vision.py in the robot package takes video-accelerated images with the picamera and
+streams them at the topic /camera/image
+
+To view the stream on the laptop, run
+
+rosrun image_view image_view image:=/camera/image
+
+## Testing and utilities
+
+snap_pic.py takes a picture, good for taking calibration images
+websocket.py serves images at ip:8080, this can be hooked up to Yolo onnx or camera_viewer.html
+camera_http_server.py serves images through html at ip:8000
+
+# Fiducials and Localization
+
+## Fiducial dictionary
+
+The robot has a dictionary of 10 5x5 Aruco "Classic" fiducials, each 8cm wide.
+The position and rotation of each can be found in src/pose_estimation/src/aruco_marker_layout.json
+
+generate_marker_json.py turns this minimal json into a representation of all corners in 3D space.
+The 3D coordinate system has Z as up, and is left-handed
+
+The fiducials package has a folder called localization_images, these are images taken at specific coordinates width
+fiducials in view. These images can be used for testing different pose estimation algorithms.
+
+## Camera calibration
+
+The fiducials package has calibrate_camera.py which runs camera calibration on the images in the robot_img folder.
+The output goes into camera_matrix.json and can be loaded later.
+
+
