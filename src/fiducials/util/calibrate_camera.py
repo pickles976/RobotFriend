@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 import cv2
 import numpy as np
-import os
 import glob
-import yaml
 
 SQUARE_WIDTH = 21.59
  
@@ -27,7 +25,7 @@ gray = img
  
 # Extracting path of individual image stored in a given directory
 # images = glob.glob('/home/sebastian/catkin_ws/src/vision/src/laptop_img/*.jpg')
-images = glob.glob('/home/sebastian/catkin_ws/src/vision/src/robot_img/*.jpg')
+images = glob.glob('/home/sebastian/catkin_ws/src/fiducials/util/calibration_images/*.jpg')
 print(images)
 
 for fname in images:
@@ -53,8 +51,8 @@ for fname in images:
         img = cv2.drawChessboardCorners(img, CHECKERBOARD, corners2, ret)
      
     # Uncomment to show the images
-    # cv2.imshow('img',img)
-    # cv2.waitKey(0)
+    cv2.imshow('img',img)
+    cv2.waitKey(0)
  
 cv2.destroyAllWindows()
  

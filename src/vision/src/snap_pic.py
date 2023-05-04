@@ -2,7 +2,7 @@ from picamera import PiCamera
 import time
 from time import sleep
 
-WIDTH, HEIGHT = 320, 240
+WIDTH, HEIGHT = 640, 480
 
 camera = PiCamera()
 camera.resolution = (WIDTH, HEIGHT)

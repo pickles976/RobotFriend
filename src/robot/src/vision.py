@@ -14,7 +14,7 @@ import signal
 
 # (640, 480)
 # (1280, 960)
-WIDTH, HEIGHT = 320, 240
+WIDTH, HEIGHT = 640, 480
 camera=None
 topic = 'picamera/image'
 node_name = 'camera'
@@ -30,7 +30,7 @@ def talker():
     camera = picamera.PiCamera()
     camera.resolution = (WIDTH, HEIGHT)
     rawCapture = PiRGBArray(camera, size=(WIDTH, HEIGHT))
-    camera.framerate = 15
+    camera.framerate = 10
     camera.rotation = 180
     camera.awb_mode = 'off'
     camera.awb_gains = (1.4, 1.5)

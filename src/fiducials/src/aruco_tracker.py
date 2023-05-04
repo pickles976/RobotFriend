@@ -62,32 +62,34 @@ class ArucoTracker:
 
         for i in range(0, len(points)):
 
-            points_3D = self.marker_dict[ids[i][0]]
-            points_2D = points[i][0]
+            if ids[i][0] in self.marker_dict:
 
-            success, rotation_vector, translation_vector = cv2.solvePnP(points_3D, points_2D, self.camera_matrix, self.dist_coeffs, flags=solver_method)
+                points_3D = self.marker_dict[ids[i][0]]
+                points_2D = points[i][0]
 
-            if success:
+                success, rotation_vector, translation_vector = cv2.solvePnP(points_3D, points_2D, self.camera_matrix, self.dist_coeffs, flags=solver_method)
 
-                # convert to homogeneous transform matrix
-                rmat, _ = cv2.Rodrigues(rotation_vector) # rotation vector to rotation matrix
-                transform = np.eye(4, dtype=np.float32)
-                transform[:3, :3] = rmat
-                transform[:3, 3] = translation_vector.reshape(3)
+                if success:
 
-                # compute the inverse to get absolute world position
-                transform = inv(transform)
+                    # convert to homogeneous transform matrix
+                    rmat, _ = cv2.Rodrigues(rotation_vector) # rotation vector to rotation matrix
+                    transform = np.eye(4, dtype=np.float32)
+                    transform[:3, :3] = rmat
+                    transform[:3, 3] = translation_vector.reshape(3)
 
-                # # convert to ft
-                # translation = transform[:3,3]
-                # translation = list(map(lambda x: x / 304.80, translation))
-                # print(translation)
+                    # compute the inverse to get absolute world position
+                    transform = inv(transform)
 
-                # # print rotation
-                # rotation = transform[:3,:3]
-                # print(rotation)
+                    # # convert to ft
+                    # translation = transform[:3,3]
+                    # translation = list(map(lambda x: x / 304.80, translation))
+                    # print(translation)
 
-                pose_estimates.append(transform)
+                    # # print rotation
+                    # rotation = transform[:3,:3]
+                    # print(rotation)
+
+                    pose_estimates.append(transform)
 
         return pose_estimates
             
