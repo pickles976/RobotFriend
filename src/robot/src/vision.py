@@ -14,7 +14,7 @@ import signal
 
 # (640, 480)
 # (1280, 960)
-WIDTH, HEIGHT = 1920, 1080
+WIDTH, HEIGHT = 1280, 960
 camera=None
 topic = 'camera/image'
 node_name = 'camera'
@@ -32,13 +32,11 @@ def talker():
     rawCapture = PiRGBArray(camera, size=(WIDTH, HEIGHT))
     camera.framerate = 3
     camera.rotation = 180
-    camera.awb_mode = 'off'
-    camera.awb_gains = (1.4, 1.5)
     
     time.sleep(2)
 
     print("Starting capture...")
-    for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+    for frame in camera.capture_continuous(rawCapture, format="rgb", use_video_port=True):
         output = frame.array
 
         message = ros_numpy.msgify(Image, output, encoding='rgb8')

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import rospy
 from sensor_msgs.msg import Image
-from geometry_msgs.msg import Pose
+from geometry_msgs.msg import PoseStamped
 import os
 from aruco_tracker import ArucoTracker
 import cv2
@@ -33,18 +33,21 @@ def callback(data):
         print("Orientation:")
         print(quat)
 
-        pose = Pose()
+        p = PoseStamped()
 
-        pose.position.x = trans[0]
-        pose.position.y = trans[1]
-        pose.position.z = trans[2]
-        pose.orientation.x = quat[0]
-        pose.orientation.y = quat[1]
-        pose.orientation.z = quat[2]
-        pose.orientation.w = quat[3]
-        
+        p.header.frame_id = "map"
+        p.header.stamp = rospy.Time.now()
+
+        p.pose.position.x = trans[0]
+        p.pose.position.y = trans[1]
+        p.pose.position.z = trans[2]
+        p.pose.orientation.w = quat[0]
+        p.pose.orientation.x = quat[1]
+        p.pose.orientation.y = quat[2]
+        p.pose.orientation.z = quat[3]
+
         global pose_pub
-        pose_pub.publish(pose) # Send it when ready!
+        pose_pub.publish(p) # Send it when ready!
     
 def init_node():
 
@@ -54,7 +57,7 @@ def init_node():
 
     rospy.Subscriber("camera/image", Image, callback)
     global pose_pub 
-    pose_pub = rospy.Publisher('pose', Pose, queue_size = 10)
+    pose_pub = rospy.Publisher('pose', PoseStamped, queue_size = 10)
 
     rospy.spin()
 
