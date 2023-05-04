@@ -2,8 +2,10 @@ from picamera import PiCamera
 import time
 from time import sleep
 
+WIDTH, HEIGHT = 320, 240
+
 camera = PiCamera()
-camera.resolution = (1920, 1080)
+camera.resolution = (WIDTH, HEIGHT)
 camera.rotation = 180
 camera.start_preview()
 sleep(3)
