@@ -80,6 +80,9 @@ The 3D coordinate system has Z as up, and is left-handed
 The fiducials package has a folder called localization_images, these are images taken at specific coordinates width
 fiducials in view. These images can be used for testing different pose estimation algorithms.
 
+Localization is done from Perspective-n-Point:
+https://en.wikipedia.org/wiki/Perspective-n-Point#:~:text=Perspective%2Dn%2DPoint%20is%20the,2D%20projections%20in%20the%20image.
+
 ## Camera calibration
 
 The fiducials package has calibrate_camera.py which runs camera calibration on the images in the robot_img folder.

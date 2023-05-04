@@ -46,8 +46,8 @@ def findArucoMarkers(img, markerSize = 5, totalMarkers=250, draw=True):
         aruco.drawDetectedMarkers(img, bboxs)
     return [bboxs, ids]
 
-path = "./src/vision/src/"
-imName= "-8_6_0.jpg"
+path = "./src/fiducials/src/"
+imName= "0_4_0.jpg"
 
 camera_matrix, dist_coeffs = loadCameraMatrix()
 marker_dict = loadArucoCoordinates()
