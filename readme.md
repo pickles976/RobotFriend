@@ -17,6 +17,17 @@
 2. roscore
 3. rosrun controller publisher.py
 
+## Robot Scripts
+1. rosrun robot driver.py
+2. rosrun robot vision.py
+
+## Laptop Scripts
+1. roscore
+2. rosrun controller publisher.py
+3. rviz
+4. rosrun marker_node.py
+5. rosrun pose_estimator.py
+
 # Debugging hardware
 
 Servo datasheet
@@ -72,7 +83,7 @@ camera_http_server.py serves images through html at ip:8000
 ## Fiducial dictionary
 
 The robot has a dictionary of 10 5x5 Aruco "Classic" fiducials, each 8cm wide.
-The position and rotation of each can be found in src/pose_estimation/src/aruco_marker_layout.json
+The position and rotation of each can be found in src/pose_estimation/util/aruco_marker_layout.json
 
 generate_marker_json.py turns this minimal json into a representation of all corners in 3D space.
 The 3D coordinate system has Z as up, and is left-handed
@@ -85,7 +96,9 @@ https://en.wikipedia.org/wiki/Perspective-n-Point#:~:text=Perspective%2Dn%2DPoin
 
 ## Camera calibration
 
-The fiducials package has calibrate_camera.py which runs camera calibration on the images in the robot_img folder.
+The fiducials/util package has calibrate_camera.py which runs camera calibration on the images in the calibration_images folder.
 The output goes into camera_matrix.json and can be loaded later.
+
+The images in util/localization_images are used to test the veracity of the fiducials. Pictures can be taken manually and used to test the accuracy of certain pnp solver methods.
 
 
