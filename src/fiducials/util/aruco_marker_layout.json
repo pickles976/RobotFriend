@@ -1,7 +1,7 @@
 {
-    "0": { "translation" : [0,0,1], "rotation" : [0,0,0] },
-    "1": { "translation" : [1,0,1], "rotation" : [0,0,0] },
-    "2": { "translation" : [0,0,2], "rotation" : [0,0,0] },
-    "3": { "translation" : [-11.75, 7, 1], "rotation" : [0,0,90] },
-    "4": { "translation" : [12.66, 7, 1], "rotation" : [0,0,-90] }
+    "0": { "translation" : [0,0,1], "rotation" : [0,0,180] },
+    "1": { "translation" : [1,0,1], "rotation" : [0,0,180] },
+    "2": { "translation" : [0,0,2], "rotation" : [0,0,180] },
+    "3": { "translation" : [-11.75, -7, 1], "rotation" : [0,0,90] },
+    "4": { "translation" : [12.66, -7, 1], "rotation" : [0,0,-90] }
 }

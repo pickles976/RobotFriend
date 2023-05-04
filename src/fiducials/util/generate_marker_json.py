@@ -9,7 +9,7 @@ import copy
 
 WIDTH_MM = 80
 
-path = "./src/fiducials/src/"
+path = "./src/fiducials/util/"
 marker_file = "aruco_marker_layout.json"
 
 aruco_markers = None
