@@ -16,7 +16,7 @@ import signal
 # (1280, 960)
 WIDTH, HEIGHT = 1920, 1080
 camera=None
-topic = 'picamera/image'
+topic = 'camera/image'
 node_name = 'camera'
 
 def talker():
@@ -24,13 +24,13 @@ def talker():
     print('Initializing node: {} with topic "{}"'.format(node_name, topic))
     pub = rospy.Publisher(topic, Image, queue_size=2)
     rospy.init_node(node_name, anonymous=True)
-    rate = rospy.Rate(5) # 10 hz
+    rate = rospy.Rate(2) # 2 hz
 
     print("Starting camera...")
     camera = picamera.PiCamera()
     camera.resolution = (WIDTH, HEIGHT)
     rawCapture = PiRGBArray(camera, size=(WIDTH, HEIGHT))
-    camera.framerate = 5
+    camera.framerate = 3
     camera.rotation = 180
     camera.awb_mode = 'off'
     camera.awb_gains = (1.4, 1.5)
