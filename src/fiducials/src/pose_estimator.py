@@ -20,6 +20,12 @@ def callback(data):
     image = ros_numpy.numpify(data)
     pose_estimates = tracker.getPoseEstimatesFromImage(image, method)
 
+    if len(pose_estimates) < 1:
+        return
+
+    trans_corrected = np.array([0,0,0], dtype=np.float32)
+    quat_corrected = []
+
     for pose in pose_estimates:
         trans = pose[:3,3]
         trans = list(map(lambda x: x / 304.80, trans))
@@ -33,21 +39,25 @@ def callback(data):
         print("Orientation:")
         print(quat)
 
-        p = PoseStamped()
+        trans_corrected = trans
+        quat_corrected = quat
 
-        p.header.frame_id = "map"
-        p.header.stamp = rospy.Time.now()
+    p = PoseStamped()
 
-        p.pose.position.x = trans[0]
-        p.pose.position.y = trans[1]
-        p.pose.position.z = trans[2]
-        p.pose.orientation.w = quat[0]
-        p.pose.orientation.x = quat[1]
-        p.pose.orientation.y = quat[2]
-        p.pose.orientation.z = quat[3]
+    p.header.frame_id = "map"
+    p.header.stamp = rospy.Time.now()
 
-        global pose_pub
-        pose_pub.publish(p) # Send it when ready!
+    p.pose.position.x = trans_corrected[0]
+    p.pose.position.y = trans_corrected[1]
+    p.pose.position.z = trans_corrected[2]
+    p.pose.orientation.w = quat_corrected[0]
+    p.pose.orientation.x = quat_corrected[1]
+    p.pose.orientation.y = quat_corrected[2]
+    p.pose.orientation.z = quat_corrected[3]
+
+    global pose_pub
+    pose_pub.publish(p) # Send it when ready!
+
     
 def init_node():
 

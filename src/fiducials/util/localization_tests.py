@@ -6,8 +6,9 @@ import os
 import numpy as np
 
 path = "./src/fiducials/util/"
-image_folder = "localization_images"
-images = os.listdir(os.path.join(path, image_folder))
+image_folder = "localization_images_1280"
+impath = os.path.join(path, image_folder)
+images = os.listdir(impath)
 
 tracker = ArucoTracker("src/fiducials/util/camera_matrix.json","src/fiducials/util/aruco_markers.json")
 methods = {
@@ -33,7 +34,7 @@ for key in methods:
         actual = list(map(lambda x: float(x), actual))
         actual = np.array(actual, dtype=np.float32)
 
-        img = cv2.imread(os.path.join(path, "localization_images/")+imName)
+        img = cv2.imread(os.path.join(impath, imName))
         poses = tracker.getPoseEstimatesFromImage(img, methods[key])
 
         print("Actual: %s"%actual)
