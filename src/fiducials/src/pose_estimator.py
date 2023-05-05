@@ -60,7 +60,7 @@ def callback(data):
     p.pose.position.x = trans_corrected[0]
     p.pose.position.y = trans_corrected[1]
     # p.pose.position.z = trans_corrected[2]
-    p.pose.position.z = 0
+    p.pose.position.z = 0.25
     p.pose.orientation.w = quat_corrected[0]
     p.pose.orientation.x = quat_corrected[1]
     p.pose.orientation.y = quat_corrected[2]

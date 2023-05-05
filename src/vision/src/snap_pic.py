@@ -10,5 +10,5 @@ camera.rotation = 180
 camera.start_preview()
 sleep(1)
 data= time.strftime("%Y-%b-%d_(%H%M%S)")
-camera.capture('%s.jpg'%data)  
+camera.capture('%s.jpg'%data, use_video_port=True)  
 camera.stop_preview()

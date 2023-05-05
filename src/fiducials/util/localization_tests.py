@@ -12,7 +12,8 @@ images = os.listdir(impath)
 
 tracker = ArucoTracker("src/fiducials/util/camera_matrix.json","src/fiducials/util/aruco_markers.json")
 methods = {
-    "SOLVEPNP_ITERATIVE" : cv2.SOLVEPNP_ITERATIVE
+    "SOLVEPNP_ITERATIVE" : cv2.SOLVEPNP_ITERATIVE,
+
 }
 
 scores = {}
@@ -28,6 +29,7 @@ for key in methods:
         actual = imName.split(".")[0].replace(",", ".").split("_")
         actual = list(map(lambda x: float(x), actual))
         actual = np.array(actual, dtype=np.float32)
+        actual[2] = 0.21
 
         img = cv2.imread(os.path.join(impath, imName))
         poses = tracker.getPoseEstimatesFromImage(img, methods[key])
