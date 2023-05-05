@@ -11,10 +11,14 @@ import ros_numpy
 from scipy.spatial.transform import Rotation as R
 
 method = cv2.SOLVEPNP_ITERATIVE
-marker_dict = "./src/fiducials/src/aruco_markers.json"
-camera_matrix =  "./src/fiducials/src/camera_matrix.json"
+# marker_dict = "./src/fiducials/src/aruco_markers.json"
+# camera_matrix =  "./src/fiducials/src/camera_matrix.json"
+marker_dict = "/home/sebastian/catkin_ws/src/fiducials/src/aruco_markers.json"
+camera_matrix = "/home/sebastian/catkin_ws/src/fiducials/src/camera_matrix.json"
 tracker = None
 pose_pub = None
+
+print(os.listdir())
 
 def callback(data):
     image = ros_numpy.numpify(data)

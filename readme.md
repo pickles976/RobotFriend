@@ -14,12 +14,10 @@
 
 ## Laptop setup
 1. source initialize_master.bash
-2. roscore
-3. rosrun controller publisher.py
+2. roslaunch main.launch
 
 ## Robot Scripts
-1. rosrun robot driver.py
-2. rosrun robot vision.py
+1. roslaunch robot.launch
 
 ## Laptop Scripts
 1. roscore

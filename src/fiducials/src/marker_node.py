@@ -4,7 +4,8 @@ from visualization_msgs.msg import Marker
 import json
 from scipy.spatial.transform import Rotation as R
 
-marker_json = "./src/fiducials/util/aruco_marker_layout.json"
+# marker_json = "./src/fiducials/util/aruco_marker_layout.json"
+marker_json = "/home/sebastian/catkin_ws/src/fiducials/util/aruco_marker_layout.json"
 
 def generate_marker_messages(markers):
 
@@ -13,7 +14,7 @@ def generate_marker_messages(markers):
     for key in markers:
 
         top_corner = markers[key]["translation"]
-        # print(top_corner)
+        print(top_corner)
 
         marker = Marker()
         marker.header.frame_id = "map"
