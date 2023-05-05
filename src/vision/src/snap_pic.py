@@ -8,7 +8,7 @@ camera = PiCamera()
 camera.resolution = (WIDTH, HEIGHT)
 camera.rotation = 180
 camera.start_preview()
-sleep(3)
+sleep(1)
 data= time.strftime("%Y-%b-%d_(%H%M%S)")
 camera.capture('%s.jpg'%data)  
 camera.stop_preview()
