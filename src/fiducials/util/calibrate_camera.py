@@ -25,7 +25,7 @@ gray = img
  
 # Extracting path of individual image stored in a given directory
 # images = glob.glob('/home/sebastian/catkin_ws/src/vision/src/laptop_img/*.jpg')
-images = glob.glob('/home/sebastian/catkin_ws/src/fiducials/util/calibration_images_1280/*.jpg')
+images = glob.glob('/home/sebastian/catkin_ws/src/fiducials/util/calibration_images_1280_video/*.jpg')
 print(images)
 
 for fname in images:
@@ -77,7 +77,7 @@ ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.sh
 
 # transform the matrix and distortion coefficients to writable lists
 data = {"camera_matrix": np.asarray(mtx).tolist(), "dist_coeff": np.asarray(dist).tolist()}
-fname = "camera_matrix.json"
+fname = "/home/sebastian/catkin_ws/src/fiducials/util/camera_matrix.json"
 import json
 with open(fname, "w") as f:
     json.dump(data, f)

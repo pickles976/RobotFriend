@@ -6,7 +6,7 @@ import os
 import numpy as np
 
 path = "./src/fiducials/util/"
-image_folder = "localization_images_1280"
+image_folder = "localization_images_1280_video"
 impath = os.path.join(path, image_folder)
 images = os.listdir(impath)
 
