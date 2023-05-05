@@ -40,7 +40,8 @@ class ArucoTracker:
             return dict
 
     def _findArucoMarkers(self, img, markerSize = 5, totalMarkers=250, draw=True):    
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        gray = img
         key = cv2.aruco.DICT_ARUCO_ORIGINAL
         arucoDict = aruco.Dictionary_get(key)
         arucoParam = aruco.DetectorParameters_create()
