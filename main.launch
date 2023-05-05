@@ -6,4 +6,5 @@
         <!-- Markers for Rviz -->
         <node pkg="fiducials" type="marker_node.py" name="marker_publisher"></node>
         <!-- Rviz with configuration -->
+        <node type="rviz" name="rviz" pkg="rviz" args="-d $(find fiducials)/rviz/robot_pose.rviz" />
 </launch>
