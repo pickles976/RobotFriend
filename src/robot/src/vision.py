@@ -11,6 +11,7 @@ from sensor_msgs.msg import Image
 import rospy
 import ros_numpy
 import signal
+import numpy as np
 
 # (640, 480)
 # (1280, 960)
@@ -37,9 +38,11 @@ def talker():
 
     print("Starting capture...")
     for frame in camera.capture_continuous(rawCapture, format="rgb", use_video_port=True):
-        output = frame.array
 
-        message = ros_numpy.msgify(Image, output, encoding='rgb8')
+        output = frame.array
+        output = np.dot(output[...,:3], [0.299, 0.587, 0.114]) # convert to black and white
+
+        message = ros_numpy.msgify(Image, output, encoding='mono8')
 
         # clear the stream in preparation for the next frame
         rawCapture.truncate(0)
