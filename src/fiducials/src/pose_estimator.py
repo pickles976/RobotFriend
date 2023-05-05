@@ -9,6 +9,7 @@ import numpy as np
 np.float = float # monkey patch
 import ros_numpy
 from scipy.spatial.transform import Rotation as R
+from kalman_filter import KalmanFilter
 
 method = cv2.SOLVEPNP_ITERATIVE
 # marker_dict = "./src/fiducials/src/aruco_markers.json"
@@ -17,8 +18,7 @@ marker_dict = "/home/sebastian/catkin_ws/src/fiducials/src/aruco_markers.json"
 camera_matrix = "/home/sebastian/catkin_ws/src/fiducials/src/camera_matrix.json"
 tracker = None
 pose_pub = None
-
-print(os.listdir())
+KF = None
 
 def callback(data):
     image = ros_numpy.numpify(data)
@@ -27,15 +27,19 @@ def callback(data):
     if len(pose_estimates) < 1:
         return
 
-    trans_corrected = np.array([0,0,0], dtype=np.float32)
+    trans_corrected = (0, 0)
     quat_corrected = []
 
     for pose in pose_estimates:
+
         trans = pose[:3,3]
         trans = list(map(lambda x: x / 304.80, trans))
         trans = np.array(trans, dtype=np.float32)
         print("Position:")
         print(trans)
+
+        KF.predict()
+        trans_corrected = KF.update(trans[0:2])
 
         rot = pose[:3,:3]
         r = R.from_matrix(rot)
@@ -43,7 +47,6 @@ def callback(data):
         print("Orientation:")
         print(quat)
 
-        trans_corrected = trans
         quat_corrected = quat
 
     p = PoseStamped()
@@ -53,7 +56,8 @@ def callback(data):
 
     p.pose.position.x = trans_corrected[0]
     p.pose.position.y = trans_corrected[1]
-    p.pose.position.z = trans_corrected[2]
+    # p.pose.position.z = trans_corrected[2]
+    p.pose.position.z = 0
     p.pose.orientation.w = quat_corrected[0]
     p.pose.orientation.x = quat_corrected[1]
     p.pose.orientation.y = quat_corrected[2]
@@ -80,5 +84,8 @@ if __name__ == '__main__':
     # load Aruco Tracker
     print("Initializing Tracker...")
     tracker = ArucoTracker(camera_matrix, marker_dict)
+
+    #KalmanFilter(dt, u_x, u_y, std_acc, x_std_meas, y_std_meas)
+    KF = KalmanFilter(0.1, 1, 1, 1, 0.1,0.1)
 
     init_node()

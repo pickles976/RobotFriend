@@ -12,12 +12,7 @@ images = os.listdir(impath)
 
 tracker = ArucoTracker("src/fiducials/util/camera_matrix.json","src/fiducials/util/aruco_markers.json")
 methods = {
-    "SOLVEPNP_ITERATIVE" : cv2.SOLVEPNP_ITERATIVE,
-    "SOLVEPNP_P3P" : cv2.SOLVEPNP_P3P,
-    "SOLVEPNP_AP3P" : cv2.SOLVEPNP_AP3P,
-    "SOLVEPNP_EPNP" : cv2.SOLVEPNP_EPNP,
-    "SOLVEPNP_IPPE" : cv2.SOLVEPNP_IPPE,
-    "SOLVEPNP_IPPE_SQUARE" : cv2.SOLVEPNP_IPPE_SQUARE
+    "SOLVEPNP_ITERATIVE" : cv2.SOLVEPNP_ITERATIVE
 }
 
 scores = {}
