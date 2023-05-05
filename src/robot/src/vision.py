@@ -25,7 +25,7 @@ def talker():
     print('Initializing node: {} with topic "{}"'.format(node_name, topic))
     pub = rospy.Publisher(topic, Image, queue_size=2)
     rospy.init_node(node_name, anonymous=True)
-    rate = rospy.Rate(4) # 2 hz
+    rate = rospy.Rate(3) # 2 hz
 
     print("Starting camera...")
     camera = picamera.PiCamera()
@@ -41,6 +41,7 @@ def talker():
 
         output = frame.array
         output = np.dot(output[...,:3], [0.299, 0.587, 0.114]) # convert to black and white
+        output = output.astype(np.uint8)
 
         message = ros_numpy.msgify(Image, output, encoding='mono8')
 
