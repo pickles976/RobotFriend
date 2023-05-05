@@ -27,7 +27,7 @@ def callback(data):
     if len(pose_estimates) < 1:
         return
 
-    trans_corrected = (0, 0)
+    trans_corrected = None
     quat_corrected = []
 
     for pose in pose_estimates:
@@ -40,6 +40,9 @@ def callback(data):
 
         KF.predict()
         trans_corrected = KF.update(trans[0:2])
+        trans_corrected = trans_corrected[0,0:].A1
+        print("corrected")
+        print(trans_corrected)
 
         rot = pose[:3,:3]
         r = R.from_matrix(rot)
@@ -86,6 +89,6 @@ if __name__ == '__main__':
     tracker = ArucoTracker(camera_matrix, marker_dict)
 
     #KalmanFilter(dt, u_x, u_y, std_acc, x_std_meas, y_std_meas)
-    KF = KalmanFilter(0.1, 1, 1, 1, 0.1,0.1)
+    KF = KalmanFilter(0.5, 1, 1, 1, 0.1,0.1)
 
     init_node()

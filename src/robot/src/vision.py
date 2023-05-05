@@ -24,13 +24,13 @@ def talker():
     print('Initializing node: {} with topic "{}"'.format(node_name, topic))
     pub = rospy.Publisher(topic, Image, queue_size=2)
     rospy.init_node(node_name, anonymous=True)
-    rate = rospy.Rate(2) # 2 hz
+    rate = rospy.Rate(4) # 2 hz
 
     print("Starting camera...")
     camera = picamera.PiCamera()
     camera.resolution = (WIDTH, HEIGHT)
     rawCapture = PiRGBArray(camera, size=(WIDTH, HEIGHT))
-    camera.framerate = 3
+    camera.framerate = 5
     camera.rotation = 180
     
     time.sleep(2)
