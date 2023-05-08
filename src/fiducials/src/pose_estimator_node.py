@@ -17,6 +17,7 @@ camera_matrix = "/home/sebastian/catkin_ws/src/fiducials/src/camera_matrix.json"
 tracker = None
 pose_pub = None
 KF = None
+ROTATIONAL_OFFSET = 90
 
 def callback(data):
     image = ros_numpy.numpify(data)
@@ -40,6 +41,13 @@ def callback(data):
 
     rot = pose[:3,:3]
     r = R.from_matrix(rot)
+
+    # APPLY OFFSET 
+    # euler = R.as_euler(r, 'xyz', degrees=True)
+    # global ROTATIONAL_OFFSET
+    # euler[2] += ROTATIONAL_OFFSET
+    # r = R.from_euler('xyz',euler, degrees=True)
+
     quat = R.as_quat(r)
     print("Orientation:")
     print(quat)
