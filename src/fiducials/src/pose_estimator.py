@@ -22,35 +22,29 @@ KF = None
 
 def callback(data):
     image = ros_numpy.numpify(data)
-    pose_estimates = tracker.getPoseEstimatesFromImage(image, method)
 
-    if len(pose_estimates) < 1:
+    success, pose = tracker.getPoseEstimatesFromImage(image, method)
+
+    if not success:
         return
 
     trans_corrected = None
-    quat_corrected = []
 
-    for pose in pose_estimates:
+    trans = pose[:3,3]
+    trans = list(map(lambda x: x / 304.80, trans))
+    trans = np.array(trans, dtype=np.float32)
+    print("Position:")
+    print(trans)
 
-        trans = pose[:3,3]
-        trans = list(map(lambda x: x / 304.80, trans))
-        trans = np.array(trans, dtype=np.float32)
-        print("Position:")
-        print(trans)
+    KF.predict()
+    trans_corrected = KF.update(trans[0:2])
+    trans_corrected = trans_corrected[0,0:].A1
 
-        KF.predict()
-        trans_corrected = KF.update(trans[0:2])
-        trans_corrected = trans_corrected[0,0:].A1
-        print("corrected")
-        print(trans_corrected)
-
-        rot = pose[:3,:3]
-        r = R.from_matrix(rot)
-        quat = R.as_quat(r)
-        print("Orientation:")
-        print(quat)
-
-        quat_corrected = quat
+    rot = pose[:3,:3]
+    r = R.from_matrix(rot)
+    quat = R.as_quat(r)
+    print("Orientation:")
+    print(quat)
 
     p = PoseStamped()
 
@@ -60,11 +54,11 @@ def callback(data):
     p.pose.position.x = trans_corrected[0]
     p.pose.position.y = trans_corrected[1]
     # p.pose.position.z = trans_corrected[2]
-    p.pose.position.z = 0.25
-    p.pose.orientation.w = quat_corrected[0]
-    p.pose.orientation.x = quat_corrected[1]
-    p.pose.orientation.y = quat_corrected[2]
-    p.pose.orientation.z = quat_corrected[3]
+    p.pose.position.z = 0.21
+    p.pose.orientation.x = quat[0]
+    p.pose.orientation.y = quat[1]
+    p.pose.orientation.z = quat[2]
+    p.pose.orientation.w = quat[3]
 
     global pose_pub
     pose_pub.publish(p) # Send it when ready!
