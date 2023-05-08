@@ -11,9 +11,7 @@ import ros_numpy
 from scipy.spatial.transform import Rotation as R
 from kalman_filter import KalmanFilter
 
-method = cv2.SOLVEPNP_ITERATIVE
-# marker_dict = "./src/fiducials/src/aruco_markers.json"
-# camera_matrix =  "./src/fiducials/src/camera_matrix.json"
+method = cv2.SOLVEPNP_IPPE
 marker_dict = "/home/sebastian/catkin_ws/src/fiducials/src/aruco_markers.json"
 camera_matrix = "/home/sebastian/catkin_ws/src/fiducials/src/camera_matrix.json"
 tracker = None
