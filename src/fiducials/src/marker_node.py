@@ -25,9 +25,9 @@ def generate_marker_messages(markers):
         marker.id = int(key)
 
         # Set the scale of the marker
-        marker.scale.x = 0.5
-        marker.scale.y = 0.05
-        marker.scale.z = 0.5
+        marker.scale.x = 0.05
+        marker.scale.y = 0.262
+        marker.scale.z = 0.262
 
         # Set the color
         marker.color.r = 1.0

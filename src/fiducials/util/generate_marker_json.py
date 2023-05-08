@@ -17,10 +17,10 @@ aruco_markers = None
 ## TOP-LEFT OF MARKER IS ZERO POSITION
 ## BOTTOM LEFT, BOTTOM RIGHT, TOP RIGHT, TOP LEFT
 corners = [
-    [0, 0, -WIDTH_MM],
-    [WIDTH_MM, 0, -WIDTH_MM],
-    [WIDTH_MM, 0, 0],
-    [0, 0, 0]
+    [0, 0, 0],
+    [0, WIDTH_MM, 0],
+    [0, WIDTH_MM, -WIDTH_MM],
+    [0, 0, -WIDTH_MM]
 ]
 
 with open(os.path.join(path, marker_file), 'r') as f:

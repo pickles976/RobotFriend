@@ -1,8 +1,8 @@
 <launch>
         <!-- Publish controller inputs -->
-        <node pkg="controller" type="publisher.py" name="controller_publisher"></node>
+        <node pkg="controller" type="publisher_node.py" name="controller_publisher"></node>
         <!-- Detect fiducials and estimate a pose -->
-        <node pkg="fiducials" type="pose_estimator.py" name="fiducial_tracker"></node>
+        <node pkg="fiducials" type="pose_estimator_node.py" name="fiducial_tracker"></node>
         <!-- Markers for Rviz -->
         <node pkg="fiducials" type="marker_node.py" name="marker_publisher"></node>
         <!-- Rviz with configuration -->
