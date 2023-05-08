@@ -25,7 +25,7 @@ gray = img
  
 # Extracting path of individual image stored in a given directory
 # images = glob.glob('/home/sebastian/catkin_ws/src/vision/src/laptop_img/*.jpg')
-images = glob.glob('/home/sebastian/catkin_ws/src/fiducials/util/calibration_images_1280_video/*.jpg')
+images = glob.glob('/home/sebastian/catkin_ws/src/fiducials/util/calibration_images/*.jpg')
 print(images)
 
 for fname in images:

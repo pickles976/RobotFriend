@@ -58,38 +58,40 @@ class ArucoTracker:
         points = arucofound[0]
         ids = arucofound[1]
 
-        pose_estimates = []
+        pose_estimate = None
+        points_3D = np.empty((0,3), dtype=np.float32)
+        points_2D = np.empty((0,2), dtype=np.float32)
 
         for i in range(0, len(points)):
 
             if ids[i][0] in self.marker_dict:
 
-                points_3D = self.marker_dict[ids[i][0]]
-                points_2D = points[i][0]
+                points_3D = np.concatenate((points_3D, self.marker_dict[ids[i][0]]))
+                points_2D = np.concatenate((points_2D, points[i][0]))
 
-                success, rotation_vector, translation_vector = cv2.solvePnP(points_3D, points_2D, self.camera_matrix, self.dist_coeffs, flags=solver_method)
+        success, rotation_vector, translation_vector = cv2.solvePnP(points_3D, points_2D, self.camera_matrix, self.dist_coeffs, flags=solver_method)
 
-                if success:
+        if success:
 
-                    # convert to homogeneous transform matrix
-                    rmat, _ = cv2.Rodrigues(rotation_vector) # rotation vector to rotation matrix
-                    transform = np.eye(4, dtype=np.float32)
-                    transform[:3, :3] = rmat
-                    transform[:3, 3] = translation_vector.reshape(3)
+            # convert to homogeneous transform matrix
+            rmat, _ = cv2.Rodrigues(rotation_vector) # rotation vector to rotation matrix
+            transform = np.eye(4, dtype=np.float32)
+            transform[:3, :3] = rmat
+            transform[:3, 3] = translation_vector.reshape(3)
 
-                    # compute the inverse to get absolute world position
-                    transform = inv(transform)
+            # compute the inverse to get absolute world position
+            transform = inv(transform)
 
-                    # # convert to ft
-                    # translation = transform[:3,3]
-                    # translation = list(map(lambda x: x / 304.80, translation))
-                    # print(translation)
+            # # convert to ft
+            # translation = transform[:3,3]
+            # translation = list(map(lambda x: x / 304.80, translation))
+            # print(translation)
 
-                    # # print rotation
-                    # rotation = transform[:3,:3]
-                    # print(rotation)
+            # # print rotation
+            # rotation = transform[:3,:3]
+            # print(rotation)
 
-                    pose_estimates.append(transform)
+            pose_estimate = transform
 
-        return pose_estimates
+        return success, pose_estimate
             
