@@ -3,6 +3,8 @@
         <node pkg="controller" type="publisher_node.py" name="controller_publisher"></node>
         <!-- Detect fiducials and estimate a pose -->
         <node pkg="fiducials" type="fiducial_node.py" name="fiducial_tracker"></node>
+        <!-- Fuse pose estimates and deltas -->
+        <node pkg="localization" type="pose_estimates_node.py" name="pose_estimator"></node>
         <!-- Markers for Rviz -->
         <node pkg="fiducials" type="marker_node.py" name="marker_publisher"></node>
         <!-- Rviz with configuration -->
