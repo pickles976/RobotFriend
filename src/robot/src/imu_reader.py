@@ -37,6 +37,7 @@ class IMUReader:
         self.velocity = 0
         self.angle_raw = 0
         self.angle = 0
+        self.dTheta = 0
 
         # These are used when we want to adjust our values from either outside measurements, or
         # just to correct for the drift that occurs when we aren't active

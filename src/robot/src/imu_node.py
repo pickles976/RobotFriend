@@ -3,16 +3,23 @@
 ### Processes IMU data and publishes estimated position deltas
 from imu_reader import IMUReader
 import rospy
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import TwistStamped
 import rospy
 from scipy.spatial.transform import Rotation as R
 from geometry_msgs.msg import PoseStamped
+from math import cos, sin, pi
 
 delta_publisher = None
 imu = None
 
 translating = False
 rotating = False
+prev_rot = 0
+
+def integrate_position(angle, velocity, dt):
+    dvel = velocity * dt * 0.3048 # convert to feet
+    rad = angle * pi / 180.0
+    return [cos(rad) * dvel, sin(rad) * dvel]
 
 def callback(data):
 
@@ -27,11 +34,13 @@ def callback(data):
     vel = 0
     rot = 0
     dt = imu.dt
+    dTheta = 0
 
     # Only read rotation if controls are coming in
     if abs(z) > 0.1:
         if rotating:
             rot = imu.angle
+            dTheta = rot - prev_rot
         else: 
             rotating = True
             imu.rot_bias = 0
@@ -51,9 +60,16 @@ def callback(data):
     print("Velocity %s"%vel)
     print("Angle: %s"%rot)
 
+    dx,dy = integrate_position(rot)
 
-    # delta_publisher.pub()
+    message = TwistStamped()
+    message.header.frame_id = "map" # TODO: wtf are the different coordinate frames?
+    message.header.stamp = rospy.Time.now()
+    message.twist.angular.z = dTheta * dt
+    message.twist.linear.x = dx * dt
+    message.twist.linear.y = dy * dt
 
+    delta_publisher.pub(message)
 
 if __name__ == '__main__':
 
