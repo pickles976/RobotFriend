@@ -55,7 +55,7 @@ def callback(data):
     p = PoseStamped()
 
     p.header.frame_id = "map"
-    p.header.stamp = rospy.Time.now()
+    p.header.stamp = image.header.stamp
 
     p.pose.position.x = trans_corrected[0]
     p.pose.position.y = trans_corrected[1]
@@ -74,11 +74,11 @@ def init_node():
 
     print("Starting node...")
 
-    rospy.init_node('pose_estimator', anonymous=True)
+    rospy.init_node('fiducial_node', anonymous=True)
 
     rospy.Subscriber("camera/image", Image, callback)
     global pose_pub 
-    pose_pub = rospy.Publisher('pose', PoseStamped, queue_size = 10)
+    pose_pub = rospy.Publisher('geometry_msgs/pose_fiducial', PoseStamped, queue_size = 10)
 
     rospy.spin()
 

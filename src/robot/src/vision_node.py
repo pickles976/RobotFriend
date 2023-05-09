@@ -44,6 +44,7 @@ def talker():
         output = output.astype(np.uint8)
 
         message = ros_numpy.msgify(Image, output, encoding='mono8')
+        message.header.stamp = rospy.Time.now()
 
         # clear the stream in preparation for the next frame
         rawCapture.truncate(0)
