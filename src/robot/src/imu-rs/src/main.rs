@@ -16,7 +16,7 @@ use esp32c3_hal::{
 };
 use esp_backtrace as _;
 use icm42670::{prelude::*, Address, Icm42670};
-use icm42670::{AccelOdr, GyroOdr};
+use icm42670::{AccelOdr, GyroOdr, GyroRange};
 
 #[riscv_rt::entry]
 fn main() -> ! {
@@ -50,8 +50,9 @@ fn main() -> ! {
     .unwrap();
 
     let mut icm = Icm42670::new(i2c, Address::Primary).unwrap();
-    icm.set_accel_odr(AccelOdr::Hz100);
-    icm.set_gyro_odr(GyroOdr::Hz100);
+    icm.set_accel_odr(AccelOdr::Hz25);
+    icm.set_gyro_odr(GyroOdr::Hz25);
+    // icm.set_gyro_range(GyroRange::Deg250);
 
     loop {
         let accel_norm = icm.accel_norm().unwrap();
@@ -59,7 +60,7 @@ fn main() -> ! {
 
         writeln!(
             UsbSerialJtag,
-            "{{ \"ACCEL\": {{ \"X\": {:.04}, \"Y\": {:.04}, \"Z\": {:.04} }}, \"GYRO\": {{ \"X\": {:.04}, \"Y\": {:.04}, \"Z\": {:.04} }} }}",
+            "{{\"A\":{{\"X\":{:.03},\"Y\":{:.03},\"Z\":{:.03} }},\"G\":{{\"X\":{:.03},\"Y\":{:.03},\"Z\":{:.03}}}}}",
             accel_norm.x, accel_norm.y, accel_norm.z, gyro_norm.x, gyro_norm.y, gyro_norm.z
         )
         .ok();
