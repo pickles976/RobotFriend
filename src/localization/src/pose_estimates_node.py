@@ -35,7 +35,7 @@ def callback_pose(data):
         last_pose = transform
         return
 
-    last_pose = np.dot(last_pose, transform)
+    last_pose = np.multiply(last_pose, transform)
 
     # Create pose message
     translation = last_pose[:3,3]
