@@ -22,7 +22,6 @@ def integrate_position(angle, velocity, dt):
 def callback(data):
 
     global imu
-    global delta_publisher
     global translating
     global rotating
 
@@ -67,6 +66,7 @@ def callback(data):
     message.twist.linear.x = dx * dt
     message.twist.linear.y = dy * dt
 
+    global delta_publisher
     delta_publisher.pub(message)
 
 if __name__ == '__main__':
