@@ -76,7 +76,7 @@ if __name__ == '__main__':
     imu.initialize_connection()
 
     print("Starting node...")
-    delta_publisher = rospy.Publisher('geometry_msgs/deltas', PoseStamped, queue_size = 10)
+    delta_publisher = rospy.Publisher('geometry_msgs/deltas', TwistStamped, queue_size = 10)
     rospy.init_node('imu_reader', anonymous=True)
     rospy.Subscriber("velocity_controller/cmd_vel", Twist, callback)
 
