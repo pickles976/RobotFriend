@@ -72,14 +72,13 @@ def callback(data):
 
 def init_node():
 
-    global imu
-    global delta_publisher
-
     # Initialize connection to IMU module
+    global imu
     imu = IMUReader('/dev/ttyACM0')
     imu.initialize_connection()
 
     print("Starting node...")
+    global delta_publisher
     delta_publisher = rospy.Publisher('geometry_msgs/deltas', TwistStamped, queue_size = 10)
     rospy.init_node('imu_reader', anonymous=True)
     rospy.Subscriber("velocity_controller/cmd_vel", Twist, callback)
