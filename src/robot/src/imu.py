@@ -21,8 +21,6 @@ def integrate_position(angle, velocity, dt):
 
 def callback(data):
 
-    print(delta_publisher)
-
     global imu
     global translating
     global rotating
@@ -69,6 +67,7 @@ def callback(data):
     message.twist.linear.y = dy * dt
 
     global delta_publisher
+    print(delta_publisher)
     delta_publisher.pub(message)
 
 def init_node():
