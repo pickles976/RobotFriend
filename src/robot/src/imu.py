@@ -4,7 +4,6 @@ import rospy
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import TwistStamped
 from geometry_msgs.msg import Twist
-import rospy
 from scipy.spatial.transform import Rotation as R
 from math import cos, sin, pi
 
