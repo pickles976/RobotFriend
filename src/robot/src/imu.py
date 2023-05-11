@@ -21,6 +21,8 @@ def integrate_position(angle, velocity, dt):
 
 def callback(data):
 
+    print(delta_publisher)
+
     global imu
     global translating
     global rotating
