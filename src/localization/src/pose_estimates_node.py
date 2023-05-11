@@ -10,12 +10,12 @@ pose_pub = None
 
 last_pose = None
 
-def callback_delta(data):
+def callback_pose(data):
 
     global pose_pub
     pose_pub.publish(data) # Just write the fiducial pose into reality
 
-def callback_pose(data):
+def callback_delta(data):
 
     global pose_pub
     global last_pose

@@ -55,7 +55,7 @@ def callback(data):
     p = PoseStamped()
 
     p.header.frame_id = "map"
-    p.header.stamp = image.header.stamp
+    p.header.stamp = data.header.stamp
 
     p.pose.position.x = trans_corrected[0]
     p.pose.position.y = trans_corrected[1]

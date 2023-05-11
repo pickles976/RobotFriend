@@ -27,7 +27,7 @@ Panels:
   - Class: rviz/Time
     Name: Time
     SyncMode: 0
-    SyncSource: Image
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -83,7 +83,7 @@ Visualization Manager:
       Shaft Length: 1
       Shaft Radius: 0.15000000596046448
       Shape: Arrow
-      Topic: /pose
+      Topic: geometry_msgs/pose_estimate
       Unreliable: false
       Value: true
     - Class: rviz/Image
@@ -126,7 +126,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 11.516999244689941
+      Distance: 28.515668869018555
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -142,9 +142,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.45039844512939453
+      Pitch: 0.5703983306884766
       Target Frame: <Fixed Frame>
-      Yaw: 4.868560791015625
+      Yaw: 0.42037883400917053
     Saved: ~
 Window Geometry:
   Displays:

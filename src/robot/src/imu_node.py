@@ -4,6 +4,7 @@
 from imu_reader import IMUReader
 import rospy
 from geometry_msgs.msg import TwistStamped
+from geometry_msgs.msg import Twist
 import rospy
 from scipy.spatial.transform import Rotation as R
 from geometry_msgs.msg import PoseStamped
@@ -79,7 +80,7 @@ if __name__ == '__main__':
 
     print("Starting node...")
     rospy.init_node('imu_reader', anonymous=True)
-    rospy.Subscriber("velocity_controller/cmd_vel", TwistStamped, callback)
+    rospy.Subscriber("velocity_controller/cmd_vel", Twist, callback)
 
     delta_publisher = rospy.Publisher('geometry_msgs/deltas', PoseStamped, queue_size = 10)
 
