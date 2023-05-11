@@ -79,9 +79,9 @@ def init_node():
 
     print("Starting node...")
     rospy.init_node('imu_reader', anonymous=True)
+    rospy.Subscriber("velocity_controller/cmd_vel", Twist, callback)
     global delta_publisher
     delta_publisher = rospy.Publisher('geometry_msgs/deltas', TwistStamped, queue_size = 10)
-    rospy.Subscriber("velocity_controller/cmd_vel", Twist, callback)
 
     while not rospy.is_shutdown():
         imu.update()
