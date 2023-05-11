@@ -68,7 +68,7 @@ def callback(data):
 
     global delta_publisher
     print(delta_publisher)
-    delta_publisher.pub(message)
+    delta_publisher.publish(message)
 
 def init_node():
 
