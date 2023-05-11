@@ -1,7 +1,7 @@
 #!/bin/bash
 
 rm -rf build
-catkin_make -only-pkg-with-deps robot
+catkin_make -only-pkg-with-deps robot std_msgs
 
 source ./devel/setup.bash
 

@@ -1,8 +1,8 @@
 <launch>
         <!-- Publish controller inputs -->
-        <node pkg="robot" type="driver_node.py" name="robot_driver"></node>
+        <node pkg="robot" type="driver.py" name="robot_driver"></node>
         <!-- Detect fiducials and estimate a pose -->
-        <node pkg="robot" type="vision_node.py" name="robot_cameras"></node>
+        <node pkg="robot" type="vision.py" name="robot_cameras"></node>
         <!-- Send IMU data -->
-        <node pkg="robot" type="imu_node.py" name="robot_imu"></node>
+        <node pkg="robot" type="imu.py" name="robot_imu"></node>
 </launch>
