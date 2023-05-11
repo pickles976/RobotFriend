@@ -69,7 +69,10 @@ def callback(data):
     global delta_publisher
     delta_publisher.pub(message)
 
-if __name__ == '__main__':
+def init_node():
+
+    global imu
+    global delta_publisher
 
     # Initialize connection to IMU module
     imu = IMUReader('/dev/ttyACM0')
@@ -82,5 +85,9 @@ if __name__ == '__main__':
 
     while not rospy.is_shutdown():
         imu.update()
+
+if __name__ == '__main__':
+
+    init_node()
 
     
