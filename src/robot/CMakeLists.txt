@@ -10,7 +10,7 @@ project(robot)
 find_package(catkin REQUIRED COMPONENTS
   ros_numpy
   rospy
-  common_msgs
+  std_msgs
 )
 
 ## System dependencies are found with CMake's conventions

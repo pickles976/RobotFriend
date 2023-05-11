@@ -58,7 +58,7 @@ def callback(data):
     print("Velocity %s"%vel)
     print("Angle: %s"%rot)
 
-    dx,dy = integrate_position(rot)
+    dx,dy = integrate_position(rot, vel, dt)
 
     message = TwistStamped()
     message.header.frame_id = "map" # TODO: wtf are the different coordinate frames?
