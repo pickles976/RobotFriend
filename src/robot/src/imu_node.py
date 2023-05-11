@@ -1,13 +1,11 @@
 #!/usr/bin/env python
-### Reads messages from controller and reads IMU, 
-### Processes IMU data and publishes estimated position deltas
 from imu_reader import IMUReader
 import rospy
+from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import TwistStamped
 from geometry_msgs.msg import Twist
 import rospy
 from scipy.spatial.transform import Rotation as R
-from geometry_msgs.msg import PoseStamped
 from math import cos, sin, pi
 
 delta_publisher = None
