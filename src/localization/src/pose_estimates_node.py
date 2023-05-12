@@ -7,8 +7,7 @@ np.float = float # monkey patch
 from scipy.spatial.transform import Rotation as R
 
 pose_pub = None
-
-last_pose = None
+last_pose = []
 
 def callback_pose(data):
 
@@ -21,21 +20,21 @@ def callback_delta(data):
     global last_pose
 
     # Apply delta to last pose (it's just a transformation matrix)
-    rotation = np.array(data.pose.orientation, dtype=np.float32)
-    rotation = R.from_quat(rotation)
+    rotation = np.array([data.twist.angular.x,data.twist.angular.y,data.twist.angular.z], dtype=np.float32)
+    rotation = R.from_rotvec(rotation)
     rotation = R.as_matrix(rotation)
 
-    translation = np.array(data.position).reshape(3)
+    translation = np.array([data.twist.linear.x, data.twist.linear.y, data.twist.linear.z], dtype=np.float32).reshape(3)
 
     transform = np.eye(4, dtype=np.float32)
     transform[:3, :3] = rotation
     transform[:3, 3] = translation
 
-    if last_pose == None:
+    if len(last_pose) <= 0:
         last_pose = transform
         return
 
-    last_pose = np.multiply(last_pose, transform)
+    last_pose = np.multiply(transform, last_pose)
 
     # Create pose message
     translation = last_pose[:3,3]
