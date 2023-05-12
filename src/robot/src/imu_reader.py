@@ -17,14 +17,7 @@ def integrate_rotation(data, dt):
 
 def integrate_velocity(data, dt):
     acc = data["A"][FORWARD_AXIS] * 9.81 #g's to m/s^2
-    return acc * dt
-
-def integrate_position(position, angle, velocity, dt):
-    dvel = velocity * dt
-    rad = angle * pi / 180
-    position[0] += cos(rad) * dvel
-    position[1] += sin(rad) * dvel
-    return position    
+    return acc * dt 
 
 class IMUReader:
 
