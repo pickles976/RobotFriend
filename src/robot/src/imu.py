@@ -13,6 +13,7 @@ imu = None
 translating = False
 rotating = False
 prev_rot = 0
+dt = 0.1
 
 def integrate_position(velocity, dt):
     dvel = velocity * dt * 0.3048 # convert to feet
@@ -23,13 +24,12 @@ def callback(data):
     global imu
     global translating
     global rotating
+    global dt
 
     x = data.linear.x
     z = data.angular.z
     
     vel = 0
-    rot = 0
-    dt = imu.dt
     dTheta = 0
 
     # Only read rotation if controls are coming in
