@@ -63,8 +63,8 @@ def callback(data):
     message.header.frame_id = "map" # TODO: wtf are the different coordinate frames?
     message.header.stamp = rospy.Time.now()
     message.twist.angular.z = dTheta * dt
-    message.twist.linear.x = dx * dt
-    message.twist.linear.y = dy * dt
+    message.twist.linear.x = dx
+    message.twist.linear.y = dy
 
     global delta_publisher
     print(delta_publisher)
