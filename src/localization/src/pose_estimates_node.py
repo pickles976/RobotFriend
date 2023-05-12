@@ -35,11 +35,11 @@ def callback_delta(data):
 
     # Apply delta to last pose (it's just a transformation matrix)
     rotation = np.array([data.twist.angular.x,data.twist.angular.y,data.twist.angular.z], dtype=np.float32)
-    rotation = R.from_rotvec(rotation)
+    rotation = R.from_euler("xyz", rotation)
     rotation = R.as_matrix(rotation)
     # quat = R.as_quat(rotation)
 
-    translation = np.array([data.twist.linear.x, data.twist.linear.y, data.twist.linear.z], dtype=np.float32).reshape(3)
+    translation = np.array([data.twist.linear.x, data.twist.linear.y, data.twist.linear.z], dtype=np.float32)
 
     transform = np.eye(4, dtype=np.float32)
     transform[:3, :3] = rotation
@@ -55,6 +55,10 @@ def callback_delta(data):
     translation = last_pose[:3,3]
     rotation = last_pose[:3,:3]
     r = R.from_matrix(rotation)
+    r = r.as_euler('xyz')
+    r[0] = 0
+    r[1] = 0
+    r = R.from_euler('xyz', r)
     quat = R.as_quat(r)
 
     p = PoseStamped()

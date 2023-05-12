@@ -38,6 +38,7 @@ def callback(data):
         if rotating:
             rot = imu.angle
             dTheta = rot - prev_rot
+            prev_rot = rot
         else: 
             rotating = True
             imu.rot_bias = 0
@@ -62,7 +63,7 @@ def callback(data):
     message = TwistStamped()
     message.header.frame_id = "map" # TODO: wtf are the different coordinate frames?
     message.header.stamp = rospy.Time.now()
-    message.twist.angular.z = dTheta * dt
+    message.twist.angular.z = dTheta
     message.twist.linear.x = dx
     message.twist.linear.y = dy
 

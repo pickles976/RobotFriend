@@ -16,12 +16,11 @@ def integrate_rotation(data, dt):
     return angular_z * dt
 
 def integrate_velocity(data, dt):
-    acc = data["A"][FORWARD_AXIS] * -9.81 #g's to m/s^2
+    acc = data["A"][FORWARD_AXIS] * 9.81 #g's to m/s^2
     return acc * dt
 
 def integrate_position(position, angle, velocity, dt):
     dvel = velocity * dt
-    # rad = angle * pi / 180.0
     position[0] += cos(angle) * dvel
     position[1] += sin(angle) * dvel
     return position    
