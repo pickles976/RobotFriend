@@ -8,6 +8,7 @@ Panels:
         - /Status1
         - /Pose1
         - /Image1
+        - /Pose2
       Splitter Ratio: 0.5
     Tree Height: 150
   - Class: rviz/Selection
@@ -27,7 +28,7 @@ Panels:
   - Class: rviz/Time
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: Image
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -98,6 +99,22 @@ Visualization Manager:
       Transport Hint: raw
       Unreliable: false
       Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.10000000149011612
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.30000001192092896
+      Head Radius: 0.10000000149011612
+      Name: Pose
+      Queue Size: 10
+      Shaft Length: 1
+      Shaft Radius: 0.05000000074505806
+      Shape: Arrow
+      Topic: geometry_msgs/pose_fiducial
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -126,7 +143,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 28.515668869018555
+      Distance: 13.242792129516602
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -142,9 +159,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.5703983306884766
+      Pitch: 0.47539836168289185
       Target Frame: <Fixed Frame>
-      Yaw: 0.42037883400917053
+      Yaw: 0.9103785157203674
     Saved: ~
 Window Geometry:
   Displays:

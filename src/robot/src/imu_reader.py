@@ -8,8 +8,8 @@ from sklearn.linear_model import LinearRegression
 
 ### chip is rotated so X is Z axis
 ### robot forward is Z, robot sideways is Y
-ROTATION_AXIS = "Z"
-FORWARD_AXIS = "X"
+ROTATION_AXIS = "X"
+FORWARD_AXIS = "Z"
 
 def integrate_rotation(data, dt):
     angular_z = data["G"][ROTATION_AXIS]

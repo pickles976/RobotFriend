@@ -41,11 +41,10 @@ class ArucoTracker:
 
     def _findArucoMarkers(self, img, markerSize = 5, totalMarkers=250, draw=True):    
         # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        gray = img
         key = cv2.aruco.DICT_ARUCO_ORIGINAL
         arucoDict = aruco.Dictionary_get(key)
         arucoParam = aruco.DetectorParameters_create()
-        bboxs, ids, rejected = aruco.detectMarkers(gray, arucoDict, parameters = arucoParam)
+        bboxs, ids, rejected = aruco.detectMarkers(img, arucoDict, parameters = arucoParam)
         if draw:
             aruco.drawDetectedMarkers(img, bboxs)
         return [bboxs, ids]
@@ -70,7 +69,10 @@ class ArucoTracker:
                 points_3D = np.concatenate((points_3D, self.marker_dict[ids[i][0]]))
                 points_2D = np.concatenate((points_2D, points[i][0]))
 
-        success, rotation_vector, translation_vector = cv2.solvePnP(points_3D, points_2D, self.camera_matrix, self.dist_coeffs, flags=solver_method)
+        try:
+            success, rotation_vector, translation_vector = cv2.solvePnP(points_3D, points_2D, self.camera_matrix, self.dist_coeffs, flags=solver_method)
+        except:
+            return False, pose_estimate
 
         if success:
 

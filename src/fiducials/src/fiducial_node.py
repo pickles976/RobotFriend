@@ -43,10 +43,10 @@ def callback(data):
     r = R.from_matrix(rot)
 
     # APPLY OFFSET 
-    # euler = R.as_euler(r, 'xyz', degrees=True)
-    # global ROTATIONAL_OFFSET
-    # euler[2] += ROTATIONAL_OFFSET
-    # r = R.from_euler('xyz',euler, degrees=True)
+    euler = R.as_euler(r, 'xyz', degrees=True)
+    global ROTATIONAL_OFFSET
+    euler[2] += ROTATIONAL_OFFSET
+    r = R.from_euler('xyz',euler, degrees=True)
 
     quat = R.as_quat(r)
     print("Orientation:")
