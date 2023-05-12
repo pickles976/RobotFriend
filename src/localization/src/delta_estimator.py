@@ -1,65 +1,33 @@
 #!/usr/bin/env python
-from imu_reader import IMUReader
+### Estimates deltas from controls input
 import rospy
-from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import TwistStamped
 from geometry_msgs.msg import Twist
-from scipy.spatial.transform import Rotation as R
-from math import cos, sin, pi
 
 delta_publisher = None
-imu = None
-
-translating = False
-rotating = False
-prev_rot = 0
-dt = 0.1
-
-def integrate_position(velocity, dt):
-    dvel = velocity * dt * 0.3048 # convert to feet
-    return dvel
 
 def callback(data):
 
-    global imu
-    global translating
-    global rotating
-    global dt
+    vel = 0.5263 #ft/s
+    angular = 216.86 #deg/s
+    dt = 0.1
 
     x = data.linear.x
     z = data.angular.z
-    
-    vel = 0
+
     dTheta = 0
+    dPos = 0
 
     # Only read rotation if controls are coming in
     if abs(z) > 0.1:
-        if rotating:
-            dTheta = imu.dTheta
-        else: 
-            rotating = True
-            imu.rot_bias = 0
-    else:
-        rotating = False
+        dTheta = angular * dt
 
     # Only read velocity when controls are coming in
     if abs(x) > 0.01:
-        if translating:
-            if x > 0:
-                vel = imu.velocity
-            else:
-                vel = -imu.velocity
-        else: 
-            translating = True
-            imu.start_reading_accel()
-    else:
-        translating = False
-
-    print("Velocity %s"%vel)
-    print("dTheta: %s"%dTheta)
-
-    # calulate linear displacement
-    dPos = integrate_position(vel, dt)
+        if x > 0:
+            dPos = vel * dt
+        else:
+            dPos = -vel * dt
 
     message = TwistStamped()
     message.header.frame_id = "map" # TODO: wtf are the different coordinate frames?
