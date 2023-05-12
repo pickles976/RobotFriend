@@ -47,7 +47,7 @@ def callback_delta(data):
 
     # get dx dy from displacement
     rad = last_angle * pi / 180.0
-    linear = data.twist.linear.x
+    linear = -data.twist.linear.x * 10
     dx,dy = [cos(rad) * linear, sin(rad) * linear]
     translation = np.array([dx,dy,0], dtype=np.float32)
 
