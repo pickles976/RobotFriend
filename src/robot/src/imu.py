@@ -49,7 +49,10 @@ def callback(data):
     # Only read velocity when controls are coming in
     if abs(x) > 0.01:
         if translating:
-            vel = imu.velocity
+            if x > 0:
+                vel = imu.velocity
+            else:
+                vel = -imu.velocity
         else: 
             translating = True
             imu.start_reading_accel()

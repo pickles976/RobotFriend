@@ -34,8 +34,8 @@ def callback_delta(data):
     global last_pose
 
     # Apply delta to last pose (it's just a transformation matrix)
-    rotation = np.array([data.twist.angular.x,data.twist.angular.y,data.twist.angular.z], dtype=np.float32)
-    rotation = R.from_euler("xyz", rotation)
+    rotation = np.array([-data.twist.angular.x,-data.twist.angular.y,-data.twist.angular.z], dtype=np.float32)
+    rotation = R.from_euler("xyz", rotation, degrees="True")
     rotation = R.as_matrix(rotation)
     # quat = R.as_quat(rotation)
 
