@@ -9,14 +9,19 @@ from scipy.spatial.transform import Rotation as R
 
 pose_pub = None
 last_pose = []
+last_angle = 0
+last_time = 0
 
 def callback_pose(data):
 
     global pose_pub
     global last_pose 
+    global last_angle
 
     rotation = [data.pose.orientation.x,data.pose.orientation.y,data.pose.orientation.z,data.pose.orientation.w]
     rotation = R.from_quat(rotation)
+    euler = rotation.as_euler('xyz')
+    last_angle = euler[2]
     rotation = R.as_matrix(rotation)
 
     translation = np.array([data.pose.position.x, data.pose.position.y, data.pose.position.z], dtype=np.float32)
@@ -33,21 +38,20 @@ def callback_delta(data):
 
     global pose_pub
     global last_pose
-
-    z_rot = 0
+    global last_angle
 
     # Apply delta to last pose (it's just a transformation matrix)
     rotation = np.array([-data.twist.angular.x,-data.twist.angular.y,-data.twist.angular.z], dtype=np.float32)
     rotation = R.from_euler("xyz", rotation, degrees="True")
-    z_rot = rotation[2]
     rotation = R.as_matrix(rotation)
-    # quat = R.as_quat(rotation)
 
-    rad = z_rot * pi / 180.0
+    # get dx dy from displacement
+    rad = last_angle * pi / 180.0
     linear = data.twist.linear.x
     dx,dy = [cos(rad) * linear, sin(rad) * linear]
     translation = np.array([dx,dy,0], dtype=np.float32)
 
+    # construct transform matrix
     transform = np.eye(4, dtype=np.float32)
     transform[:3, :3] = rotation
     transform[:3, 3] = translation
@@ -65,6 +69,7 @@ def callback_delta(data):
     r = r.as_euler('xyz')
     r[0] = 0
     r[1] = 0
+    last_angle = r[2]
     r = R.from_euler('xyz', r)
     quat = R.as_quat(r)
 

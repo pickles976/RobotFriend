@@ -138,7 +138,8 @@ class IMUReader:
             dt = time.time() - self.start # time since last measurement
             self.elapsed += dt
             self.start = time.time()
-            self.angle_raw += integrate_rotation(imu_data, dt)
+            self.dTheta = integrate_rotation(imu_data, dt)
+            self.angle_raw += self.dTheta
             self.angle = self.angle_raw - ((self.elapsed * self.rot_coeff) + self.rot_intercept) - self.rot_bias
             self.velocity_raw += integrate_velocity(imu_data, dt)
             self.velocity = self.velocity_raw - ((self.elapsed * self.acc_coeff) + self.acc_intercept)

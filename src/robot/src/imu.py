@@ -14,18 +14,15 @@ translating = False
 rotating = False
 prev_rot = 0
 
-def integrate_position(angle, velocity, dt):
+def integrate_position(velocity, dt):
     dvel = velocity * dt * 0.3048 # convert to feet
     return dvel
-    # rad = angle * pi / 180.0
-    # return [cos(rad) * dvel, sin(rad) * dvel]
 
 def callback(data):
 
     global imu
     global translating
     global rotating
-    global prev_rot
 
     x = data.linear.x
     z = data.angular.z
@@ -38,9 +35,7 @@ def callback(data):
     # Only read rotation if controls are coming in
     if abs(z) > 0.1:
         if rotating:
-            rot = imu.angle
-            dTheta = rot - prev_rot
-            prev_rot = rot
+            dTheta = imu.dTheta
         else: 
             rotating = True
             imu.rot_bias = 0
@@ -61,10 +56,10 @@ def callback(data):
         translating = False
 
     print("Velocity %s"%vel)
-    print("Angle: %s"%rot)
+    print("dTheta: %s"%dTheta)
 
     # calulate linear displacement
-    dPos = integrate_position(rot, vel, dt)
+    dPos = integrate_position(vel, dt)
 
     message = TwistStamped()
     message.header.frame_id = "map" # TODO: wtf are the different coordinate frames?
