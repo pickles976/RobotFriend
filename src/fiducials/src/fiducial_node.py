@@ -45,6 +45,8 @@ def callback(data):
     # APPLY OFFSET 
     euler = R.as_euler(r, 'xyz', degrees=True)
     global ROTATIONAL_OFFSET
+    euler[0] = 0
+    euler[1] = 0
     euler[2] += ROTATIONAL_OFFSET
     r = R.from_euler('xyz',euler, degrees=True)
 

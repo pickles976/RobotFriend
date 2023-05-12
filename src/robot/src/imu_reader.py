@@ -12,7 +12,7 @@ ROTATION_AXIS = "X"
 FORWARD_AXIS = "Z"
 
 def integrate_rotation(data, dt):
-    angular_z = data["G"][ROTATION_AXIS] * pi / 180
+    angular_z = data["G"][ROTATION_AXIS]
     return angular_z * dt
 
 def integrate_velocity(data, dt):
@@ -21,8 +21,9 @@ def integrate_velocity(data, dt):
 
 def integrate_position(position, angle, velocity, dt):
     dvel = velocity * dt
-    position[0] += cos(angle) * dvel
-    position[1] += sin(angle) * dvel
+    rad = angle * pi / 180
+    position[0] += cos(rad) * dvel
+    position[1] += sin(rad) * dvel
     return position    
 
 class IMUReader:
