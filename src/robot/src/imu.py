@@ -24,6 +24,7 @@ def callback(data):
     global imu
     global translating
     global rotating
+    global prev_rot
 
     x = data.linear.x
     z = data.angular.z
