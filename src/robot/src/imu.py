@@ -16,8 +16,9 @@ prev_rot = 0
 
 def integrate_position(angle, velocity, dt):
     dvel = velocity * dt * 0.3048 # convert to feet
-    rad = angle * pi / 180.0
-    return [cos(rad) * dvel, sin(rad) * dvel]
+    return dvel
+    # rad = angle * pi / 180.0
+    # return [cos(rad) * dvel, sin(rad) * dvel]
 
 def callback(data):
 
@@ -62,14 +63,14 @@ def callback(data):
     print("Velocity %s"%vel)
     print("Angle: %s"%rot)
 
-    dx,dy = integrate_position(rot, vel, dt)
+    # calulate linear displacement
+    dPos = integrate_position(rot, vel, dt)
 
     message = TwistStamped()
     message.header.frame_id = "map" # TODO: wtf are the different coordinate frames?
     message.header.stamp = rospy.Time.now()
     message.twist.angular.z = dTheta
-    message.twist.linear.x = dx
-    message.twist.linear.y = dy
+    message.twist.linear.x = dPos
 
     global delta_publisher
     print(delta_publisher)

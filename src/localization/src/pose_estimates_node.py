@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from math import cos, sin, pi
 import rospy
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import TwistStamped
@@ -33,13 +34,19 @@ def callback_delta(data):
     global pose_pub
     global last_pose
 
+    z_rot = 0
+
     # Apply delta to last pose (it's just a transformation matrix)
     rotation = np.array([-data.twist.angular.x,-data.twist.angular.y,-data.twist.angular.z], dtype=np.float32)
     rotation = R.from_euler("xyz", rotation, degrees="True")
+    z_rot = rotation[2]
     rotation = R.as_matrix(rotation)
     # quat = R.as_quat(rotation)
 
-    translation = np.array([data.twist.linear.x, data.twist.linear.y, data.twist.linear.z], dtype=np.float32)
+    rad = z_rot * pi / 180.0
+    linear = data.twist.linear.x
+    dx,dy = [cos(rad) * linear, sin(rad) * linear]
+    translation = np.array([dx,dy,0], dtype=np.float32)
 
     transform = np.eye(4, dtype=np.float32)
     transform[:3, :3] = rotation
