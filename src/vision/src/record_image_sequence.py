@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from picamera import PiCamera
 from time import sleep
 
