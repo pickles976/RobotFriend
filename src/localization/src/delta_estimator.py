@@ -8,8 +8,8 @@ delta_publisher = None
 
 def callback(data):
 
-    vel = 0.5263 #ft/s
-    angular = 216.86 #deg/s
+    vel = 0.05263 #ft/s
+    angular = 108.43 #deg/s
     dt = 0.1
 
     x = data.linear.x
@@ -20,14 +20,17 @@ def callback(data):
 
     # Only read rotation if controls are coming in
     if abs(z) > 0.1:
-        dTheta = angular * dt
+        if z > 0:
+            dTheta = -angular * dt
+        else:
+            dTheta = angular * dt
 
     # Only read velocity when controls are coming in
     if abs(x) > 0.01:
         if x > 0:
-            dPos = vel * dt
-        else:
             dPos = -vel * dt
+        else:
+            dPos = vel * dt
 
     message = TwistStamped()
     message.header.frame_id = "map" # TODO: wtf are the different coordinate frames?
@@ -41,19 +44,13 @@ def callback(data):
 
 def init_node():
 
-    # Initialize connection to IMU module
-    global imu
-    imu = IMUReader('/dev/ttyACM0')
-    imu.initialize_connection()
-
     print("Starting node...")
     rospy.init_node('imu_reader', anonymous=True)
     rospy.Subscriber("velocity_controller/cmd_vel", Twist, callback)
     global delta_publisher
     delta_publisher = rospy.Publisher('geometry_msgs/deltas', TwistStamped, queue_size = 10)
 
-    while not rospy.is_shutdown():
-        imu.update()
+    rospy.spin()
 
 if __name__ == '__main__':
 
