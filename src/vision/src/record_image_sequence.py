@@ -7,7 +7,7 @@ WIDTH, HEIGHT = 1280, 960
 camera = PiCamera()
 camera.resolution = (WIDTH, HEIGHT)
 camera.rotation = 180
-camera.framerate = 10
+camera.framerate = 60
 camera.start_preview()
 sleep(1)
 
