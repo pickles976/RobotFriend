@@ -2,7 +2,7 @@
 from picamera import PiCamera
 from time import sleep
 import rospy
-from std_msgs.msg import Twist
+from geometry_msgs.msg import Twist
 import json
 
 messages = []
