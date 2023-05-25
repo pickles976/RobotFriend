@@ -9,7 +9,7 @@ messages = []
 
 def callback(data):
     global messages
-    messages.append(data)
+    messages.append(str(data))
     
 def listener():
     rospy.init_node('listener', anonymous=True)
