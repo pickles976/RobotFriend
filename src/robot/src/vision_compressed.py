@@ -14,12 +14,13 @@ import ros_numpy
 import signal
 import numpy as np
 import cv2
+# from PIL import Image
 
 # (640, 480)
 # (1280, 960)
 WIDTH, HEIGHT = 1280, 960
 camera=None
-topic = 'camera/image'
+topic = 'camera/image/compressed'
 node_name = 'camera'
 
 def talker():

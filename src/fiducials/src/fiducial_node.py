@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from sensor_msgs.msg import Image
+from sensor_msgs.msg import CompressedImage
 from geometry_msgs.msg import PoseStamped
 import os
 from aruco_tracker import ArucoTracker
@@ -81,7 +81,7 @@ def init_node():
 
     rospy.init_node('fiducial_node', anonymous=True)
 
-    rospy.Subscriber("camera/image", Image, callback)
+    rospy.Subscriber("camera/image/compressed", CompressedImage, callback)
     global pose_pub 
     pose_pub = rospy.Publisher('geometry_msgs/pose_fiducial', PoseStamped, queue_size = 10)
 
