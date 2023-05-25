@@ -32,7 +32,7 @@ def callback(data):
     print(data)
 
     x = data.linear.x / 6.0
-    z = data.angular.z / 4.0 # turn less to make the camera less jittery
+    z = data.angular.z / 2.0 # turn less to make the camera less jittery
 
     right = 0
     left = 0
@@ -40,7 +40,7 @@ def callback(data):
     right += x
     left += x
 
-    if (abs(z) > 0.025):
+    if (abs(z) > 0.05):
         if (x > 0.01):
             if (z < 0):
                 right *= (1-z)
