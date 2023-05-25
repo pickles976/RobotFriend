@@ -28,12 +28,11 @@ if __name__ == '__main__':
     camera.start_preview()
     sleep(1)
 
-    try:
-        for filename in camera.capture_continuous('img{counter:03d}.jpg',use_video_port=True):
-            print('Captured %s' % filename)
-            sleep(0.1) # wait 0.1s
-    except KeyboardInterrupt: 
-        camera.stop_preview()
-        
+    for filename in camera.capture_continuous('img{counter:03d}.jpg',use_video_port=True):
+        print('Captured %s' % filename)
         with open('controls.json', 'w') as f:
             json.dump({ "inputs" : messages}, f)
+        sleep(0.1) # wait 0.1s
+
+camera.stop_preview()
+
