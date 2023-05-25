@@ -20,7 +20,10 @@ KF = None
 ROTATIONAL_OFFSET = 90
 
 def callback(data):
-    image = ros_numpy.numpify(data)
+
+    np_arr = np.fromstring(data.data, np.uint8)
+    image = cv2.imdecode(np_arr, cv2.IMREAD_GRAYSCALE)
+    # image = ros_numpy.numpify(data)
 
     success, pose = tracker.getPoseEstimatesFromImage(image, method)
 
